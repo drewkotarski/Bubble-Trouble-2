@@ -42,9 +42,9 @@ results no matter who is playing it. This means that the project will work to th
 as our proposal, where no matter how the user interacts with our project it will not break. 
 
 ### Evaluation of Results
-We will know that we are successful if we can reproduce with some level of similarity form the game 
-How will you know if you are successful? 
-If you include some kind of _quantitative analysis,_ that would be good.
+We will know that we are successful if we can reproduce one level from the game with some margin of similarity, with the most
+simple level (level 1) successfully emulated. We will be successful if we can produce level 1 from 'Bubble trouble 2' that uses the 
+same user inputs as the game, produces the same results when the imputs are used, and dose not break when other imputs are selected. 
 
 ## Architecture Diagram
 Upload the architecture diagram you made for your slide presentation to your repository, and include it in-line here.
@@ -76,19 +76,12 @@ Here each group member gets a section where they, as an individual, detail what 
 
 Please use Github properly: each individual must make the edits to this file representing their own section of work.
 
-**Additional instructions for teams of three:** 
-* Remember that you must have prior written permission to work in groups of three (specifically, an approved `FP3` team declaration submission).
-* The team must nominate a lead. This person is primarily responsible for code integration. This work may be shared, but the team lead has default responsibility.
-* The team lead has full partner implementation responsibilities also.
-* Identify who is team lead.
+
 
 In the headings below, replace the silly names and GitHub handles with your actual ones.
 
-### Susan Scheme @susanscheme
+### Molly McGuire @mollyelizabethmcguire11
 will write the....
 
 ### Leonard Lambda @lennylambda
-will work on...
-
-### Frank Funktions @frankiefunk 
-Frank is team lead. Additionally, Frank will work on...   
+will work on... 
