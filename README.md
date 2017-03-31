@@ -1,25 +1,10 @@
 # Bubble Trouble 2 Emulator
 
 ### Statement
-Describe your project. Why is it interesting? Why is it interesting to you personally? What do you hope to learn? 
+Our project is a racket remake of the flash game "Bubble Trouble". It's interesting because we learn how to use racket libraries and implement and manipulate different objects with a functional language. It's interesting to us because we both played it in elementary/middle school so it's nostalgic. We hope to learn how to apply some of the concepts we learned in class to a project that has a clear result of what we want to see in the end.
 
 ### Analysis
-Explain what approaches from class you will bring to bear on the project.
-
-Be explicit about the techiques from the class that you will use. For example:
-
-- Will you use data abstraction? How?
-- Will you use recursion? How?
-- Will you use map/filter/reduce? How? 
-- Will you use object-orientation? How?
-- Will you use functional approaches to processing your data? How?
-- Will you use state-modification approaches? How? (If so, this should be encapsulated within objects. `set!` pretty much should only exist inside an object.)
-- Will you build an expression evaluator, like we did in the symbolic differentatior and the metacircular evaluator?
-- Will you use lazy evaluation approaches?
-
-The idea here is to identify what ideas from the class you will use in carrying out your project. 
-
-**Your project will be graded, in part, by the extent to which you adopt approaches from the course into your implementation, _and_ your discussion about this.**
+We will be using object orientation to hold our "player" object, "hook" or object that will be shot from the player to pop bubbles. To manipulate these objects, we will use data abstraction to update the x/y variables, as well as delete objects from the universe. To check whether collisions occurred (either hook hits bubble, or bubble hits player) we will filter over the objects x/y positions. state modification will be used within each object to update the location, for example. if the left arrow key is held, the player will move 10 units to the left (set! x (- x 10)). 
 
 ### External Technologies
 Our project will generate or produce sound, because the original flash game produces sounds as well. When the hook is deployed, 
@@ -69,7 +54,7 @@ create our deliverable project.
 We will have multiple objects drawn to the screen as well as player controls implemented.
 
 ### Second Milestone (Sun Apr 16)
-We will have object collison detection and creating a head-up display (HUD) implementd.   
+We will have object collison detection, basic bubble physics (when a bubble pops, it splits into 2 and bounces at a lower/higher height, etc.) and creating a head-up display (HUD) implemented.   
 
 ### Public Presentation (Mon Apr 24, Wed Apr 26, or Fri Apr 28 [your date to be determined later])
 We will have bugs fixed, outlying errors fixed, and time permitting multiple levels implemented. 
@@ -77,9 +62,11 @@ We will have bugs fixed, outlying errors fixed, and time permitting multiple lev
 ## Group Responsibilities
 
 ### Molly McGuire @mollyelizabethmcguire11
-- Drawing objects to the sceen for milestone 1, which includes multiple bubbles, the user, and the hook.
-- Collision detection for milestone 2, which includes popping bubbles with the hook and bubbles hitting the user
-- Bug fixing before the final presentation, as well as helping with the HUD and bubble physics 
-
-### Leonard Lambda @lennylambda
 will work on... 
+Drawing objects to the sceen for milestone 1, collision detection for milestone 2, and any bug fixing before the final presentation. 
+
+### Michael Danino @mdanino94
+will work on... 
+- Polishing the player controls I already implemented in my exploration, possibly adding multiple sprites for when walking left/right
+- Creating a HUD that will show a menu for enabling/disabling sound, a timer, and level indicator, as well as basic bubble physics
+- Any necessary bug fixing related to this, as well as helping with collision detection/drawing multiple objects when necessary.
