@@ -52,24 +52,27 @@ Upload the architecture diagram you made for your slide presentation to your rep
 Create several paragraphs of narrative to explain the pieces and how they interoperate.
 
 ## Schedule
-Explain how you will go from proposal to finished product. 
+From this proposal, we will take the code that we have already written in our first and second explorations and commit them to one
+repository (this repository). We will then combine the concepts that we have worked on in our explorations into one file that will 
+be our deliverable file, which we will work on together at a high level so that we both know what needs to be done and what is going on. 
 
-There are three deliverable milestones to explicitly define, below.
+From our combined explorations, we will then work towards our first milestone - getting multiple objects drawn to the sceen as well as
+player controls. 
 
-The nature of deliverables depend on your project, but may include things like processed data ready for import, core algorithms implemented, interface design prototyped, etc. 
+From our first milestone, we will then work on object collison detection and creating a head-up display (HUD) until we have completed 
+those tasks for our second milestone. 
 
-You will be expected to turn in code, documentation, and data (as appropriate) at each of these stages.
-
-Write concrete steps for your schedule to move from concept to working system. 
+From our second milestone, we will work on fixing bugs, outlying errors, and time permitting the creation of multiple levels to 
+create our deliverable project. 
 
 ### First Milestone (Sun Apr 9)
-Which portion of the work will be completed (and committed to Github) by this day? 
+We will have multiple objects drawn to the screen as well as player controls implemented.
 
 ### Second Milestone (Sun Apr 16)
-Which portion of the work will be completed (and committed to Github) by this day?  
+We will have object collison detection and creating a head-up display (HUD) implementd.   
 
 ### Public Presentation (Mon Apr 24, Wed Apr 26, or Fri Apr 28 [your date to be determined later])
-What additionally will be completed before the public presentation?
+We will have bugs fixed, outlying errors fixed, and time permitting multiple levels implemented. 
 
 ## Group Responsibilities
 Here each group member gets a section where they, as an individual, detail what they are responsible for in this project. Each group member writes their own Responsibility section. Include the milestones and final deliverable.
