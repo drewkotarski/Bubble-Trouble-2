@@ -75,16 +75,9 @@ We will have object collison detection and creating a head-up display (HUD) impl
 We will have bugs fixed, outlying errors fixed, and time permitting multiple levels implemented. 
 
 ## Group Responsibilities
-Here each group member gets a section where they, as an individual, detail what they are responsible for in this project. Each group member writes their own Responsibility section. Include the milestones and final deliverable.
-
-Please use Github properly: each individual must make the edits to this file representing their own section of work.
-
-
-
-In the headings below, replace the silly names and GitHub handles with your actual ones.
 
 ### Molly McGuire @mollyelizabethmcguire11
-will write the....
+Drawing objects to the sceen for milestone 1, collision detection for milestone 2, and any bug fixing before the final presentation. 
 
 ### Leonard Lambda @lennylambda
 will work on... 
