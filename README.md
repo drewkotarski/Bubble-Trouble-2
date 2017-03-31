@@ -63,7 +63,9 @@ We will have bugs fixed, outlying errors fixed, and time permitting multiple lev
 
 ### Molly McGuire @mollyelizabethmcguire11
 will work on... 
-Drawing objects to the sceen for milestone 1, collision detection for milestone 2, and any bug fixing before the final presentation. 
+- Drawing objects to the sceen for milestone 1, which includes bubbles, the user, and the hook 
+- Collision detection for milestone 2, which includes bubble and hook collision and bubble and player collisions
+- Bug fixing before the final presentation, as well as helping with the HUD and bubble physics
 
 ### Michael Danino @mdanino94
 will work on... 
