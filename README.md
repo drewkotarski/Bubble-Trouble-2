@@ -1,4 +1,4 @@
-# Project Title Goes Here (10 words maximum)
+# Bubble Trouble 2 Emulator
 
 ### Statement
 Describe your project. Why is it interesting? Why is it interesting to you personally? What do you hope to learn? 
@@ -22,34 +22,27 @@ The idea here is to identify what ideas from the class you will use in carrying 
 **Your project will be graded, in part, by the extent to which you adopt approaches from the course into your implementation, _and_ your discussion about this.**
 
 ### External Technologies
-You are encouraged to develop a project that connects to external systems. For example, this includes systems that:
-
-- retrieve information or publish data to the web
-- generate or process sound
-- control robots or other physical systems
-- interact with databases
-
-If your project will do anything in this category (not only the things listed above!), include this section and discuss.
+Our project will generate or produce sound, because the original flash game produces sounds as well. When the hook is deployed, 
+a bubble is popped, or the player is hit by a bubble a specific sound that is associated with each action is prodcued. The sounds do 
+not differ when the same action is performed. 
 
 ### Data Sets or other Source Materials
-If you will be working with existing data, where will you get those data from? (Dowload from a website? Access in a database? Create in a simulation you will build? ...)
-
-How will you convert your data into a form usable for your project?  
-
-If you are pulling data from somewhere, actually go download it and look at it before writing the proposal. Explain in some detail what your plan is for accomplishing the necessary processing.
-
-If you are using some other starting materials, explain what they are. Basically: anything you plan to use that isn't code.
+We are not going to be using data sets or other source materials. We are attempting to emulate the classic flash game 'Bubble trouble 2'
+from scratch in order to understand and reinforce the concepts learned in this class in an applicative way. 
 
 ### Deliverable and Demonstration
-Explain exactly what you'll have at the end. What will it be able to do at the live demo?
 
-What exactly will you produce at the end of the project? A piece of software, yes, but what will it do? Here are some questions to think about (and answer depending on your application).
+What we will have at the end of this semester is are playable levels that resemble those of the original game. At the live demo, we 
+we will be able to run our racket code and have observers play the levels that we have successfully emulated. The player will be able 
+to deploy the hook with the space bar, move the characcter with the arrow keys, and interact with objects successfully in the game 
+itself. 
 
-Will it run on some data, like batch mode? Will you present some analytical results of the processing? How can it be re-run on different source data?
-
-Will it be interactive? Can you show it working? This project involves a live demo, so interactivity is good.
+What will be produced at the end of the project is and interactive deliverable that anyone can play on- which will produce the same 
+results no matter who is playing it. This means that the project will work to the means that we have specified in our code as well 
+as our proposal, where no matter how the user interacts with our project it will not break. 
 
 ### Evaluation of Results
+We will know that we are successful if we can reproduce with some level of similarity form the game 
 How will you know if you are successful? 
 If you include some kind of _quantitative analysis,_ that would be good.
 
