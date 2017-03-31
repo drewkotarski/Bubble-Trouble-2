@@ -77,7 +77,9 @@ We will have bugs fixed, outlying errors fixed, and time permitting multiple lev
 ## Group Responsibilities
 
 ### Molly McGuire @mollyelizabethmcguire11
-Drawing objects to the sceen for milestone 1, collision detection for milestone 2, and any bug fixing before the final presentation. 
+- Drawing objects to the sceen for milestone 1, which includes multiple bubbles, the user, and the hook.
+- Collision detection for milestone 2, which includes popping bubbles with the hook and bubbles hitting the user
+- Bug fixing before the final presentation, as well as helping with the HUD and bubble physics 
 
 ### Leonard Lambda @lennylambda
 will work on... 
