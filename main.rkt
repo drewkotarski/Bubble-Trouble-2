@@ -36,13 +36,34 @@
 
 (define (world-obj)
   (underlay/xy
-   (underlay/xy background
-                (p1 'position) ; x val of p1
-                600 ; y val of p1
-                (p1-sprite))
-   (my-hook 'x)
-   (my-hook 'y)
-   (hook-sprite)))
+  (underlay/xy
+   (underlay/xy
+    (underlay/xy background
+                 (p1 'position) ; x val of p1
+                 600 ; y val of p1
+                 (p1-sprite))
+    (bubble1 'x)
+    (bubble1 'y)
+    (bubble1 'draw))
+   (+ 10 (my-hook 'x))
+   (+ (my-hook 'y) 7)
+   (draw-chain-2))
+  (my-hook 'x)
+  (my-hook 'y)
+  (hook-sprite)))
+
+(define (draw-chain-2)
+  (if (my-hook 'is-shooting?)
+  (overlay (rectangle 4 (- 600 (my-hook 'y) 8) "solid" "brown") (rectangle 5 (- 600 (my-hook 'y) 7) "solid" "gray"))
+  invis_obj))
+
+(define (draw-chain y)
+  (if (and (< y 600) (my-hook 'is-shooting?))
+      (underlay/xy (ellipse 5 10 "outline" "gray")
+                   (my-hook 'x)
+                   y
+                   (draw-chain (+ y 7)))
+      invis_obj))
 
 (define (update-screen x)
   (world-obj))

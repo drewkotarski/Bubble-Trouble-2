@@ -14,15 +14,13 @@
 (define arrowSound (rs-read "arrow.wav"));read in the arrow sound to be played upon shooting
 
 (define (bubble x y size speed color)
-  (define (dispatch comm val) ; couldn't figure out how to do an optional arg (val only needed in update case)
+  (define (dispatch comm) ; couldn't figure out how to do an optional arg (val only needed in update case)
     (cond [(equal? comm 'x) x]
           [(equal? comm 'y) y]
-          [(equal? comm 'update-x) (set! x val)]
-          [(equal? comm 'update-y) (set! y val)]
           [(equal? comm 'size) size]
           [(equal? comm 'speed) speed]
           [(equal? comm 'color) color]
-          [(equal? comm 'draw) (circle size "solid" color)]
+          [(equal? comm 'draw) (overlay (circle size "solid" color) (circle (+ 2 size) "solid" "white"))]
           [else (error "bubble: unknown command --" comm)]))
     dispatch)
           
@@ -46,7 +44,7 @@
     (cond [(equal? comm 'x) x]
           [(equal? comm 'y) y]
           [(equal? comm 'is-shooting?) (if (equal? shooting 'no) #f #t)]
-          [(equal? comm 'start-shooting) (if (equal? shooting 'no) (begin (play arrowSound) (set! shooting 'yes) (set! x (p1 'position))) "shooting")] ; need to debug this, if statement doesn't seem to read properly
+          [(equal? comm 'start-shooting) (if (equal? shooting 'no) (begin (play arrowSound) (set! shooting 'yes) (set! x (+ 5 (p1 'position)))) "shooting")] ; need to debug this, if statement doesn't seem to read properly
           [(equal? comm 'stop-shooting) (set! shooting 'no)]
           [(equal? comm 'update) (set! y (- y 10))]
           [(equal? comm 'reset) (begin (set! y orig-y) (set! shooting 'no))]
@@ -55,4 +53,4 @@
 
 (define p1 (player 0 550))
 (define my-hook (hook 0 550 'no))
-(define bubble1 (bubble 0 500 30 3 "blue"))
+(define bubble1 (bubble 300 500 60 3 "red"))
