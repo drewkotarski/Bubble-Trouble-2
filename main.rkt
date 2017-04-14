@@ -9,7 +9,6 @@
 (define arrowSound (rs-read "arrow.wav"));read in the arrow sound to be played upon shooting
 ;(play arrowSound)
 ; initialize the main player and the "hook" used (eventually) to pop bubbles
-
 (define (p1-sprite)
   (define p1-up (bitmap "up.png"))
   (define p1-left (bitmap "left.png"))
@@ -21,9 +20,12 @@
   retval)
           
 (define my-hook-sprite (bitmap "arrow.png"))
+(define invis_obj (circle 0 "outline" "white"))
 
 (define background (bitmap "background.jpg"))
 
+(define (hook-sprite)
+  (if (my-hook 'is-shooting?) my-hook-sprite invis_obj))
 
 ;handle key events
 (define (change w a-key)
@@ -32,9 +34,18 @@
         [(key=? a-key " ") (my-hook 'start-shooting)]
         [else (p1 'face-up)]))
 
+(define (world-obj)
+  (underlay/xy
+   (underlay/xy background
+                (p1 'position) ; x val of p1
+                600 ; y val of p1
+                (p1-sprite))
+   (my-hook 'x)
+   (my-hook 'y)
+   (hook-sprite)))
+
 (define (update-screen x)
-  (underlay/xy background (p1 'position) ; x val
-               (- (my-hook 'y) 10) (overlay/offset my-hook-sprite 0 50 (p1-sprite))))
+  (world-obj))
 
 (define (update-sprites x) (if (and (my-hook 'is-shooting?) (> (my-hook 'y) 10)) ; if the hook is shooting and it hasn't reached the top of the screen yet
                                (my-hook 'update) ; keep moving it up 10 pixels

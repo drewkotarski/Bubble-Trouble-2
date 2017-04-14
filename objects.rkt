@@ -46,13 +46,13 @@
     (cond [(equal? comm 'x) x]
           [(equal? comm 'y) y]
           [(equal? comm 'is-shooting?) (if (equal? shooting 'no) #f #t)]
-          [(equal? comm 'start-shooting) (if (equal? shooting 'no) (begin (play arrowSound) (set! shooting 'yes)) "shooting")] ; need to debug this, if statement doesn't seem to read properly
+          [(equal? comm 'start-shooting) (if (equal? shooting 'no) (begin (play arrowSound) (set! shooting 'yes) (set! x (p1 'position))) "shooting")] ; need to debug this, if statement doesn't seem to read properly
           [(equal? comm 'stop-shooting) (set! shooting 'no)]
-          [(equal? comm 'update) (begin (set! x (p1 'position)) (set! y (- y 10)))]
+          [(equal? comm 'update) (set! y (- y 10))]
           [(equal? comm 'reset) (begin (set! y orig-y) (set! shooting 'no))]
           [else (error "hook: unknown command --" comm)]))
   dispatch)
 
 (define p1 (player 0 550))
-(define my-hook (hook 50 550 'no))
+(define my-hook (hook 0 550 'no))
 (define bubble1 (bubble 0 500 30 3 "blue"))
