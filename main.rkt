@@ -8,7 +8,7 @@
 
 (define num-lives 3)
 
-(define level #\1)
+(define level 5)
 
 (define (draw-lives n)
   (if (> n 0)
@@ -22,7 +22,7 @@
                 (draw-lives num-lives))
     500
     5
-    (text (string #\L #\E #\V #\E #\L #\: #\ level) 20 "black")))
+    (text (string-join `("LEVEL:" ,(number->string level))) 20 "black")))
     
 ;(text (string #\L #\I #\V #\E #\S #\: #\ (integer->char num-lives)) 5 "black")))
 (define arrowSound (rs-read "arrow.wav"));read in the arrow sound to be played upon shooting
