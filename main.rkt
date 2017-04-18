@@ -56,14 +56,27 @@
   (underlay/xy 
    (underlay/xy
     (underlay/xy
+     
      (underlay/xy
-      (underlay/xy background
-                   (p1 'position) ; x val of p1
-                   600 ; y val of p1
-                   (p1-sprite))
-      (bubble1 'x)
-      (bubble1 'y)
-      (bubble1 'draw))
+      
+      (underlay/xy
+       
+       (underlay/xy
+        (underlay/xy background
+                     (p1 'position) ; x val of p1
+                     600 ; y val of p1
+                     (p1-sprite))
+        (bubble1 'x)
+        (bubble1 'y)
+        (bubble1 'draw))
+       
+       (bubble2 'x)
+       (bubble2 'y)
+       (bubble2 'draw))
+      
+      (bubble3 'x)
+      (bubble3 'y)
+      (bubble3 'draw))
      (+ 10 (my-hook 'x))
      (+ (my-hook 'y) 7)
      (draw-chain-2))
@@ -72,8 +85,9 @@
     (hook-sprite))
    0
    670
-   (draw-HUD))
+  (draw-HUD))
   )
+
 
 (define (draw-chain-2)
   (if (my-hook 'is-shooting?)
@@ -91,9 +105,76 @@
 (define (update-screen x)
   (world-obj))
 
-(define (update-sprites x) (if (and (my-hook 'is-shooting?) (> (my-hook 'y) 10)) ; if the hook is shooting and it hasn't reached the top of the screen yet
-                               (my-hook 'update) ; keep moving it up 10 pixels
-                               (my-hook 'reset))) ; reset to original place
+(define (update-sprites x) (begin
+                             (if (and (my-hook 'is-shooting?) (> (my-hook 'y) 10)) ; if the hook is shooting and it hasn't reached the top of the screen yet
+                                 (my-hook 'update) ; keep moving it up 10 pixels
+                                 (my-hook 'reset))
+                             (bubble1 (cond
+                                        [(> (bubble1 'x) 1058) 'go-left]
+                                        [(< (bubble1 'x) 0) 'go-right]
+                                        [else
+                                         (if (eq? (bubble2 'x-dir) 0)
+                                             'go-left
+                                             'go-right)]
+                                        ))
+                                     ;;   [(and (> (bubble1 'x) 1058)(> (bubble1 'y) 600)) 'go-up-left]
+                                     ;;   [(and (< (bubble1 'x) 0)(> (bubble1 'y) 600)) 'go-up-right]
+                                     ;;   [(and (> (bubble1 'x) 1058)(< (bubble1 'y) 550)) 'go-down-left]
+                                     ;;   [(and (< (bubble1 'x) 0)(< (bubble1 'y) 550)) 'go-down-right]
+                                     ;;   [(and (eq?(bubble1 'x-dir) 0) (eq?(bubble1 'y-dir) 0) ) 'go-up-left]
+                                     ;;   [(and (eq?(bubble1 'x-dir) 0) (eq?(bubble1 'y-dir) 1) ) 'go-down-left]
+                                     ;;   [(and (eq?(bubble1 'x-dir) 1) (eq?(bubble1 'y-dir) 0) ) 'go-up-right]
+                                     ;;   [(and (eq?(bubble1 'x-dir) 1) (eq?(bubble1 'y-dir) 1) ) 'go-down-right]
+                                     ;;   [else
+                                     ;;    'go-up-right]
+                                     ;;   ))
+                                    ;;  (cond
+                                    ;;    [(< (bubble1 ' y) 550) 'go-down]
+                                    ;;    [(> (bubble1 'y) 600) 'go-up]
+                                    ;;    [else
+                                    ;;     (if (eq? (bubble1 'y-dir) 0)
+                                    ;;         'go-up
+                                    ;;         'go-down)]
+                                    ;;    ))
+                                      
+                             (bubble2
+                              ;;(cond
+                              ;;          [(> (bubble2 'x) 1048) 'go-left]
+                              ;;          [(< (bubble2 'x) 0) 'go-right]
+                              ;;          [else
+                              ;;           (if (eq? (bubble2 'x-dir) 0)
+                              ;;               'go-left
+                              ;;              'go-right)]
+                              ;;          )
+                                      (cond
+                                        [(< (bubble2 'y) 400) 'go-down]
+                                        [(> (bubble2 'y) 600) 'go-up]
+                                        [else
+                                         (if (eq? (bubble2 'y-dir) 0)
+                                             'go-up
+                                             'go-down)]
+                                        ))
+                             (bubble3
+                              ;;(cond
+                              ;;          [(> (bubble3 'x) 1038) 'go-left]
+                              ;;          [(< (bubble3 'x) 0) 'go-right]
+                              ;;          [else
+                              ;;           (if (eq? (bubble3 'x-dir) 0)
+                              ;;               'go-left
+                               ;;              'go-right)]
+                               ;;         )
+                                      (cond
+                                        [(< (bubble3 'y) 200) 'go-down]
+                                        [(> (bubble3 'y) 600) 'go-up]
+                                        [else
+                                         (if (eq? (bubble3 'y-dir) 0)
+                                             'go-up
+                                             'go-down)]
+                                        ))
+                             ))
+                                        ; reset to original place
+
+;; go left until 1100, then go right until 0, then go left until 1100, etc
 
 (big-bang 'world0
           (on-tick update-sprites); don't fully understand what this does but it's in the example
