@@ -77,8 +77,8 @@
       (bubble3 'x)
       (bubble3 'y)
       (bubble3 'draw))
-     (+ 10 (my-hook 'x))
-     (+ (my-hook 'y) 7)
+     (+ 7 (my-hook 'x))
+     (+ (my-hook 'y) 5)
      (draw-chain-2))
     (my-hook 'x)
     (my-hook 'y)
@@ -91,16 +91,8 @@
 
 (define (draw-chain-2)
   (if (my-hook 'is-shooting?)
-  (overlay (rectangle 4 (- 600 (my-hook 'y) 8) "solid" "brown") (rectangle 5 (- 600 (my-hook 'y) 7) "solid" "gray"))
+  (overlay (rectangle 2 (- 600 (my-hook 'y) 8) "solid" "brown") (rectangle 3 (- 600 (my-hook 'y) 7) "solid" "gray"))
   empty-image))
-
-(define (draw-chain y)
-  (if (and (< y 600) (my-hook 'is-shooting?))
-      (underlay/xy (ellipse 5 10 "outline" "gray")
-                   (my-hook 'x)
-                   y
-                   (draw-chain (+ y 7)))
-      empty-image))
 
 (define (update-screen x)
   (world-obj))
@@ -109,68 +101,39 @@
                              (if (and (my-hook 'is-shooting?) (> (my-hook 'y) 10)) ; if the hook is shooting and it hasn't reached the top of the screen yet
                                  (my-hook 'update) ; keep moving it up 10 pixels
                                  (my-hook 'reset))
-                             (bubble1 (cond
-                                        [(> (bubble1 'x) 1058) 'go-left]
-                                        [(< (bubble1 'x) 0) 'go-right]
-                                        [else
-                                         (if (eq? (bubble2 'x-dir) 0)
-                                             'go-left
-                                             'go-right)]
-                                        ))
-                                     ;;   [(and (> (bubble1 'x) 1058)(> (bubble1 'y) 600)) 'go-up-left]
-                                     ;;   [(and (< (bubble1 'x) 0)(> (bubble1 'y) 600)) 'go-up-right]
-                                     ;;   [(and (> (bubble1 'x) 1058)(< (bubble1 'y) 550)) 'go-down-left]
-                                     ;;   [(and (< (bubble1 'x) 0)(< (bubble1 'y) 550)) 'go-down-right]
-                                     ;;   [(and (eq?(bubble1 'x-dir) 0) (eq?(bubble1 'y-dir) 0) ) 'go-up-left]
-                                     ;;   [(and (eq?(bubble1 'x-dir) 0) (eq?(bubble1 'y-dir) 1) ) 'go-down-left]
-                                     ;;   [(and (eq?(bubble1 'x-dir) 1) (eq?(bubble1 'y-dir) 0) ) 'go-up-right]
-                                     ;;   [(and (eq?(bubble1 'x-dir) 1) (eq?(bubble1 'y-dir) 1) ) 'go-down-right]
-                                     ;;   [else
-                                     ;;    'go-up-right]
-                                     ;;   ))
-                                    ;;  (cond
-                                    ;;    [(< (bubble1 ' y) 550) 'go-down]
-                                    ;;    [(> (bubble1 'y) 600) 'go-up]
-                                    ;;    [else
-                                    ;;     (if (eq? (bubble1 'y-dir) 0)
-                                    ;;         'go-up
-                                    ;;         'go-down)]
-                                    ;;    ))
-                                      
+                             
+                             (bubble1
+                              (cond
+                                [(> (bubble1 'x) 1058) 'go-left]
+                                [(< (bubble1 'x) 2) 'go-right]
+                                [else
+                                 (if (eq? (bubble2 'x-dir) 0)
+                                     'go-left
+                                     'go-right)]
+                                ))
+                             
+                             (bubble1 'update-y) 
+                             (bubble2 'update-y)
                              (bubble2
-                              ;;(cond
-                              ;;          [(> (bubble2 'x) 1048) 'go-left]
-                              ;;          [(< (bubble2 'x) 0) 'go-right]
-                              ;;          [else
-                              ;;           (if (eq? (bubble2 'x-dir) 0)
-                              ;;               'go-left
-                              ;;              'go-right)]
-                              ;;          )
-                                      (cond
-                                        [(< (bubble2 'y) 400) 'go-down]
-                                        [(> (bubble2 'y) 600) 'go-up]
-                                        [else
-                                         (if (eq? (bubble2 'y-dir) 0)
-                                             'go-up
-                                             'go-down)]
-                                        ))
+                              (cond
+                                [(> (bubble2 'x) 1048) 'go-left]
+                                [(< (bubble2 'x) 5) 'go-right]
+                                [else
+                                 (if (eq? (bubble2 'x-dir) 0)
+                                     'go-left
+                                     'go-right)]
+                                ))
+                             (bubble3 'update-y)
                              (bubble3
-                              ;;(cond
-                              ;;          [(> (bubble3 'x) 1038) 'go-left]
-                              ;;          [(< (bubble3 'x) 0) 'go-right]
-                              ;;          [else
-                              ;;           (if (eq? (bubble3 'x-dir) 0)
-                              ;;               'go-left
-                               ;;              'go-right)]
-                               ;;         )
-                                      (cond
-                                        [(< (bubble3 'y) 200) 'go-down]
-                                        [(> (bubble3 'y) 600) 'go-up]
-                                        [else
-                                         (if (eq? (bubble3 'y-dir) 0)
-                                             'go-up
-                                             'go-down)]
-                                        ))
+                              (cond
+                                [(> (bubble3 'x) 1038) 'go-left]
+                                [(< (bubble3 'x) 0) 'go-right]
+                                [else
+                                 (if (eq? (bubble3 'x-dir) 0)
+                                     'go-left
+                                     'go-right)]
+                                ))
+                              
                              ))
                                         ; reset to original place
 
