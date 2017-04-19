@@ -11,16 +11,52 @@
 (provide my-hook)
 (provide p1)
 (provide bubble1)
+(provide bubble2)
+(provide bubble3)
+
+
+
 (define arrowSound (rs-read "arrow.wav"));read in the arrow sound to be played upon shooting
 
-(define (bubble x y size speed color)
+(define (bubble x y size speed color x-dir y-dir)
   (define (dispatch comm) ; couldn't figure out how to do an optional arg (val only needed in update case)
     (cond [(equal? comm 'x) x]
           [(equal? comm 'y) y]
+          
+          [(equal? comm 'go-left)(begin (set! x (- x 4))
+                                        (set! x-dir 0))]
+          [(equal? comm 'go-right)(begin(set! x (+ x 4))
+                                        (set! x-dir 1))]
+          
+          [(equal? comm 'go-up)(begin(set! y (- y 4))
+                                        (set! y-dir 0))]
+          [(equal? comm 'go-down)(begin(set! y (+ y 4))
+                                        (set! y-dir 1))]
+
+          [(equal? comm 'go-down-left)(begin (set! x (- x 4))
+                                             (set! x-dir 0)
+                                             (set! y (+ y 4))
+                                             (set! y-dir 1))]
+          [(equal? comm 'go-down-right)(begin (set! x (+ x 4))
+                                              (set! x-dir 1)
+                                              (set! y (+ y 4))
+                                              (set! y-dir 1))]
+          [(equal? comm 'go-up-left)(begin (set! x (- x 4))
+                                           (set! x-dir 0)
+                                           (set! y (- y 4))
+                                           (set! y-dir 0))]
+          [(equal? comm 'go-up-right)(set! x (+ x 4))
+                                     (set! x-dir 1)
+                                     (set! y (- y 4))
+                                     (set! y-dir 0)]
+          
           [(equal? comm 'size) size]
           [(equal? comm 'speed) speed]
           [(equal? comm 'color) color]
-          [(equal? comm 'draw) (overlay (circle size "solid" color) (circle (+ 2 size) "solid" "white"))]
+          [(equal? comm 'x-dir) x-dir]
+          [(equal? comm 'y-dir) y-dir]
+          [(equal? comm 'draw) (circle size "solid" color)]
+          
           [else (error "bubble: unknown command --" comm)]))
     dispatch)
           
@@ -44,7 +80,7 @@
     (cond [(equal? comm 'x) x]
           [(equal? comm 'y) y]
           [(equal? comm 'is-shooting?) (if (equal? shooting 'no) #f #t)]
-          [(equal? comm 'start-shooting) (if (equal? shooting 'no) (begin (play arrowSound) (set! shooting 'yes) (set! x (+ 5 (p1 'position)))) "shooting")] ; need to debug this, if statement doesn't seem to read properly
+          [(equal? comm 'start-shooting) (if (equal? shooting 'no) (begin (play arrowSound) (set! shooting 'yes) (set! x (p1 'position))) "shooting")] ; need to debug this, if statement doesn't seem to read properly
           [(equal? comm 'stop-shooting) (set! shooting 'no)]
           [(equal? comm 'update) (set! y (- y 10))]
           [(equal? comm 'reset) (begin (set! y orig-y) (set! shooting 'no))]
@@ -53,4 +89,6 @@
 
 (define p1 (player 0 550))
 (define my-hook (hook 0 550 'no))
-(define bubble1 (bubble 300 500 60 3 "red"))
+(define bubble1 (bubble 0 550 10 3 "blue" 1 1))
+(define bubble2 (bubble 20 400 20 3 "red" 1 1))
+(define bubble3 (bubble 40 200 30 3 "yellow" 1 1))
