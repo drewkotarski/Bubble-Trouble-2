@@ -5,6 +5,7 @@
 (require rsound)
 (require "objects.rkt")
 
+(define lost? #f)
 
 (define num-lives 3)
 
@@ -53,39 +54,43 @@
         [else (p1 'face-up)]))
 
 (define (world-obj)
-  (underlay/xy 
-   (underlay/xy
+  (underlay/xy
+   (underlay/xy 
     (underlay/xy
-     
      (underlay/xy
-      
+     
       (underlay/xy
-       
-       (underlay/xy
-        (underlay/xy background
-                     (p1 'position) ; x val of p1
-                     600 ; y val of p1
-                     (p1-sprite))
-        (bubble1 'x)
-        (bubble1 'y)
-        (bubble1 'draw))
-       
-       (bubble2 'x)
-       (bubble2 'y)
-       (bubble2 'draw))
       
-      (bubble3 'x)
-      (bubble3 'y)
-      (bubble3 'draw))
-     (+ 7 (my-hook 'x))
-     (+ (my-hook 'y) 5)
-     (draw-chain-2))
-    (my-hook 'x)
-    (my-hook 'y)
-    (hook-sprite))
-   0
-   670
-  (draw-HUD))
+       (underlay/xy
+       
+        (underlay/xy
+         (underlay/xy background
+                      (p1 'position) ; x val of p1
+                      600 ; y val of p1
+                      (p1-sprite))
+         (bubble1 'x)
+         (bubble1 'y)
+         (bubble1 'draw))
+       
+        (bubble2 'x)
+        (bubble2 'y)
+        (bubble2 'draw))
+      
+       (bubble3 'x)
+       (bubble3 'y)
+       (bubble3 'draw))
+      (+ 7 (my-hook 'x))
+      (+ (my-hook 'y) 5)
+      (draw-chain-2))
+     (my-hook 'x)
+     (my-hook 'y)
+     (hook-sprite))
+    0
+    670
+    (draw-HUD))
+   10
+   10
+   (debug-prints))
   )
 
 
@@ -95,14 +100,13 @@
   empty-image))
 
 (define (update-screen x)
-  (world-obj))
+  (if lost?
+      (text "YOU DEAD!" 20 "black")
+  (world-obj)))
 
-(define (update-sprites x) (begin
-                             (if (and (my-hook 'is-shooting?) (> (my-hook 'y) 10)) ; if the hook is shooting and it hasn't reached the top of the screen yet
-                                 (my-hook 'update) ; keep moving it up 10 pixels
-                                 (my-hook 'reset))
-                             
-                             (bubble1
+(define (update-bubbles)
+  (begin
+    (bubble1
                               (cond
                                 [(> (bubble1 'x) 1058) 'go-left]
                                 [(< (bubble1 'x) 2) 'go-right]
@@ -133,13 +137,39 @@
                                      'go-left
                                      'go-right)]
                                 ))
-                             (bubble3
-                              (if (and
-                                   (equal? (p1 'position)(bubble3 'x))
-                                   (equal? (bubble3 'y) (- (bubble3 'GROUND) (* 2 (bubble3 'size-picker)))))
-                                  'col-sprite
-                                  'size))
-                              
+                             ))
+
+
+(define (debug-prints)
+  (above
+                (text (string-join `("p1 TL-x:" ,(number->string (p1 'top-left-x)))) 15 "black")
+                (text (string-join `("p1 TL-y:" ,(number->string (p1 'bottom-right-x)))) 15 "black")
+                (text (string-join `("p1 BR-x:" ,(number->string (p1 'top-left-y)))) 15 "black")
+                (text (string-join `("p1 BR-y:" ,(number->string (p1 'bottom-right-y)))) 15 "black")
+
+                (text (string-join `("b3 TL-x:" ,(number->string (bubble3 'top-left-x)))) 15 "black")
+                (text (string-join `("b3 TL-y:" ,(number->string (bubble3 'bottom-right-x)))) 15 "black")
+                (text (string-join `("b3 BR-x:" ,(number->string (bubble3 'top-left-y)))) 15 "black")
+                (text (string-join `("b3 BR-y:" ,(number->string (bubble3 'bottom-right-y)))) 15 "black")
+                ))
+
+(define (check-collisions)
+  (if (and
+       (> (bubble3 'bottom-right-x) (p1 'top-left-x)) ; if the bottom right corner of the bubble is bigger than top left of player
+       (< (bubble3 'top-left-x) (p1 'bottom-right-x)) ; and top left of bubble is less than bottom right of player
+       (< (bubble3 'bottom-right-y) (p1 'top-left-y)) ; and same for y (but reversed because y axis goes top to bottom)
+       (> (bubble3 'top-left-y) (p1 'bottom-right-y))
+       )
+      (begin (bubble3 'col-sprite) (set! lost? #t))
+      void)
+  )
+
+(define (update-sprites x) (begin
+                             (if (and (my-hook 'is-shooting?) (> (my-hook 'y) 10)) ; if the hook is shooting and it hasn't reached the top of the screen yet
+                                 (my-hook 'update) ; keep moving it up 10 pixels
+                                 (my-hook 'reset))
+                             (update-bubbles)
+                             (check-collisions)
                              ))
                                         ; reset to original place
 

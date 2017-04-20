@@ -19,40 +19,30 @@
 (define arrowSound (rs-read "arrow.wav"));read in the arrow sound to be played upon shooting
 
 (define (bubble x y size color x-dir y-dir)
-  (define (dispatch comm) ; couldn't figure out how to do an optional arg (val only needed in update case)
-    (cond [(equal? comm 'x) x]
-          [(equal? comm 'y) y]
-          [(equal? comm 'GROUND) GROUND]
-          
-          [(equal? comm 'go-left)(change-x -4)]
-          [(equal? comm 'go-right)(change-x 4)]
-          
-          [(equal? comm 'go-up) (change-y -4)]
-          [(equal? comm 'go-down)(change-y 4)]
-          [(equal? comm 'update-y) (update-y)]
-
-          [(equal? comm 'col-sprite)(collision-user)]
-          [(equal? comm 'col-arrow)(collision-bubble)]
-          
-          [(equal? comm 'size) size]
-          [(equal? comm 'size-picker) (size-picker)]
-          [(equal? comm 'color) color]
-          [(equal? comm 'x-dir) x-dir]
-          [(equal? comm 'y-dir) y-dir]
-          [(equal? comm 'draw) (overlay
-                                (circle (size-picker) "solid" color)
-                                (circle (+ 2 (size-picker)) "solid" "white"))]
-          
-          [else (error "bubble: unknown command --" comm)]))
+  
   (define (size-picker)
     (cond
       [(equal? size 1) 10]
-      [(equal? size 2) 15]
-      [(equal? size 3) 25]
+      [(equal? size 2) 16]
+      [(equal? size 3) 26]
       [(equal? size 4) 40]
       [(equal? size 5) 70]
       [else size]))
 
+  (define (center-x)
+    (+ x (/ (size-picker) 2)))
+  (define (center-y)
+    (+ y (/ (size-picker) 2)))
+
+  (define (top-left-x)
+    x)
+  (define (top-left-y)
+    y)
+  (define (bottom-right-x)
+    (+ x (floor (size-picker))))
+  (define (bottom-right-y)
+    (+ y (floor (size-picker))))
+  
   (define (collision-user)
     (set! color "black"))
   
@@ -67,6 +57,7 @@
           (if (< dist 0)
               (set! x-dir 0)
               (set! x-dir 1))))
+
   (define (update-y)
     (unless (< y (- GROUND (* 2 (size-picker))))
       (set! y-vel (* -10 size)))
@@ -75,8 +66,41 @@
     (set! y (+ y y-vel))
     )
 
-  (define GROUND 620)
+  (define GROUND 680)
   (define y-vel (* 2 size))
+  (define (dispatch comm) ; couldn't figure out how to do an optional arg (val only needed in update case)
+    (cond [(equal? comm 'x) x]
+          [(equal? comm 'y) y]
+          [(equal? comm 'GROUND) GROUND]
+          
+          [(equal? comm 'go-left)(change-x -1)]
+          [(equal? comm 'go-right)(change-x 1)]
+          
+          [(equal? comm 'go-up) (change-y -4)]
+          [(equal? comm 'go-down)(change-y 4)]
+          [(equal? comm 'update-y) (update-y)]
+
+          [(equal? comm 'col-sprite)(collision-user)]
+          [(equal? comm 'col-arrow)(collision-bubble)]
+          
+          [(equal? comm 'size) size]
+          [(equal? comm 'size-picker) (size-picker)]
+          [(equal? comm 'color) color]
+          [(equal? comm 'x-dir) x-dir]
+          [(equal? comm 'y-dir) y-dir]
+
+          [(equal? comm 'center-x) (center-x)]
+          [(equal? comm 'center-y) (center-y)]
+          [(equal? comm 'top-left-x) (top-left-x)]
+          [(equal? comm 'top-left-y) (top-left-y)]
+          [(equal? comm 'bottom-right-x) (bottom-right-x)]
+          [(equal? comm 'bottom-right-y) (bottom-right-y)]
+          
+          [(equal? comm 'draw) (overlay
+                                (circle (size-picker) "solid" color)
+                                (circle (+ 2 (size-picker)) "solid" "white"))]
+          
+          [else (error "bubble: unknown command --" comm)]))
     dispatch)
 
 
@@ -87,11 +111,35 @@
 
 (define (player x y)
   (define direction 'up)
+  (define width 30)
+  (define height 50)
+
+  (define (center-x)
+    (+ x (/ width 2)))
+  (define (center-y)
+    (+ y (/ height 2)))
+
+  (define (top-left-x)
+    x)
+  (define (top-left-y)
+    y)
+  (define (bottom-right-x)
+    (+ x width))
+  (define (bottom-right-y)
+    (+ y height))
+
+  
   (define (dispatch comm)
     (cond [(equal? comm 'move-left) (if (< x 1) x (begin (set! x (- x 5)) (set! direction 'left)))]
           [(equal? comm 'move-right) (if (> x 1068) x (begin (set! x (+ x 5)) (set! direction 'right)))]
           [(equal? comm 'position) x]
           [(equal? comm 'dir) direction]
+          [(equal? comm 'top-left-x) (top-left-x)]
+          [(equal? comm 'top-left-y) (top-left-y)]
+          [(equal? comm 'bottom-right-x) (bottom-right-x)]
+          [(equal? comm 'bottom-right-y) (bottom-right-y)]
+          [(equal? comm 'center-x) (center-x)]
+          [(equal? comm 'center-y) (center-y)]
           [(equal? comm 'face-up) (set! direction 'up)]
           [(equal? comm 'shoot) (if (my-hook 'is-shooting?) ;if it's not shot yet, let start shot. otherwise ignore.
                                     (my-hook 'start-shooting)
