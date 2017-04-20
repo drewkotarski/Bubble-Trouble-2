@@ -39,9 +39,9 @@
   (define (top-left-y)
     y)
   (define (bottom-right-x)
-    (+ x (floor (size-picker))))
+    (+ x 26))
   (define (bottom-right-y)
-    (+ y (floor (size-picker))))
+    (+ y 26))
   
   (define (collision-user)
     (set! color "black"))

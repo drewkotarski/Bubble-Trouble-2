@@ -7,7 +7,7 @@
 
 (define lost? #f)
 
-(define num-lives 3)
+(define lives 3)
 
 (define level 5)
 
@@ -20,7 +20,7 @@
     (underlay/xy (rectangle 1100 30 "solid" "red")
                 0
                 5
-                (draw-lives num-lives))
+                (draw-lives lives))
     500
     5
     (text (string-join `("LEVEL:" ,(number->string level))) 20 "black")))
@@ -100,8 +100,8 @@
   empty-image))
 
 (define (update-screen x)
-  (if lost?
-      (text "YOU DEAD!" 20 "black")
+  (if (equal? lives 0)
+      (text "YOU DEAD!" 90 "black")
   (world-obj)))
 
 (define (update-bubbles)
@@ -157,10 +157,10 @@
   (if (and
        (> (bubble3 'bottom-right-x) (p1 'top-left-x)) ; if the bottom right corner of the bubble is bigger than top left of player
        (< (bubble3 'top-left-x) (p1 'bottom-right-x)) ; and top left of bubble is less than bottom right of player
-       (< (bubble3 'bottom-right-y) (p1 'top-left-y)) ; and same for y (but reversed because y axis goes top to bottom)
-       (> (bubble3 'top-left-y) (p1 'bottom-right-y))
+       (> (bubble3 'bottom-right-y) (p1 'top-left-y)) ; and same for y (but reversed because y axis goes top to bottom)
+       (< (bubble3 'top-left-y) (p1 'bottom-right-y))
        )
-      (begin (bubble3 'col-sprite) (set! lost? #t))
+      (begin (bubble3 'col-sprite) (set! lives (- lives 1)))
       void)
   )
 
