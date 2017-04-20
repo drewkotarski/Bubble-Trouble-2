@@ -133,6 +133,12 @@
                                      'go-left
                                      'go-right)]
                                 ))
+                             (bubble3
+                              (if (and
+                                   (equal? (p1 'position)(bubble3 'x))
+                                   (equal? (bubble3 'y) (- (bubble3 'GROUND) (* 2 (bubble3 'size-picker)))))
+                                  'col-sprite
+                                  'size))
                               
                              ))
                                         ; reset to original place

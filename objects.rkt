@@ -22,6 +22,7 @@
   (define (dispatch comm) ; couldn't figure out how to do an optional arg (val only needed in update case)
     (cond [(equal? comm 'x) x]
           [(equal? comm 'y) y]
+          [(equal? comm 'GROUND) GROUND]
           
           [(equal? comm 'go-left)(change-x -4)]
           [(equal? comm 'go-right)(change-x 4)]
@@ -29,8 +30,12 @@
           [(equal? comm 'go-up) (change-y -4)]
           [(equal? comm 'go-down)(change-y 4)]
           [(equal? comm 'update-y) (update-y)]
+
+          [(equal? comm 'col-sprite)(collision-user)]
+          [(equal? comm 'col-arrow)(collision-bubble)]
           
           [(equal? comm 'size) size]
+          [(equal? comm 'size-picker) (size-picker)]
           [(equal? comm 'color) color]
           [(equal? comm 'x-dir) x-dir]
           [(equal? comm 'y-dir) y-dir]
@@ -47,6 +52,9 @@
       [(equal? size 4) 40]
       [(equal? size 5) 70]
       [else size]))
+
+  (define (collision-user)
+    (set! color "black"))
   
   (define (change-y dist)
     (begin(set! y (+ y dist))
@@ -67,10 +75,16 @@
     (set! y (+ y y-vel))
     )
 
-  (define GROUND 580)
+  (define GROUND 620)
   (define y-vel (* 2 size))
     dispatch)
-          
+
+
+
+(define (collision-bubble)
+  1)
+
+
 (define (player x y)
   (define direction 'up)
   (define (dispatch comm)
