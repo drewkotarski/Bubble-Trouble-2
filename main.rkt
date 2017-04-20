@@ -164,13 +164,13 @@
       void)
   )
 
-(define (update-sprites x) (begin
+(define (update-sprites x) (if (> 0 lives) void (begin
                              (if (and (my-hook 'is-shooting?) (> (my-hook 'y) 10)) ; if the hook is shooting and it hasn't reached the top of the screen yet
                                  (my-hook 'update) ; keep moving it up 10 pixels
                                  (my-hook 'reset))
                              (update-bubbles)
                              (check-collisions)
-                             ))
+                             )))
                                         ; reset to original place
 
 ;; go left until 1100, then go right until 0, then go left until 1100, etc
