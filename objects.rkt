@@ -13,7 +13,7 @@
 (provide bubble1)
 (provide bubble2)
 (provide bubble3)
-
+(provide bubble-list)
 
 
 (define arrowSound (rs-read "arrow.wav"));read in the arrow sound to be played upon shooting
@@ -22,10 +22,10 @@
   
   (define (size-picker)
     (cond
-      [(equal? size 1) 10]
-      [(equal? size 2) 20]
-      [(equal? size 3) 30]
-      [(equal? size 4) 40]
+      [(equal? size 1) 8]
+      [(equal? size 2) 16]
+      [(equal? size 3) 32]
+      [(equal? size 4) 64]
       [(equal? size 5) 60]
       [else size]))
 
@@ -166,3 +166,7 @@
 (define bubble1 (bubble 0 550 1 "blue" 1 1))
 (define bubble2 (bubble 0 400 2 "red" 1 1))
 (define bubble3 (bubble 0 200 3 "yellow" 1 1))
+
+(define bubble-list (list (bubble 0 550 1 "blue" 1 1) (bubble 0 400 2 "red" 1 1) (bubble 0 200 3 "yellow" 1 1)))
+
+(define orig-bubble1 bubble1)

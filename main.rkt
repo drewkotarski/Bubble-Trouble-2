@@ -53,35 +53,30 @@
         [(key=? a-key " ") (my-hook 'start-shooting)]
         [else (p1 'face-up)]))
 
+
+(define (draw-bubble-list my-bubbles)
+  (underlay/xy ((car my-bubbles) 'draw)
+               (- ((cadr my-bubbles) 'x) ((car my-bubbles) 'x))
+               (- ((cadr my-bubbles) 'y) 1100)
+               ((cadr my-bubbles) 'draw))
+  )
+
 (define (world-obj)
   (underlay/xy
    (underlay/xy 
     (underlay/xy
      (underlay/xy
-     
       (underlay/xy
-      
-       (underlay/xy
-       
-        (underlay/xy
-         (underlay/xy background
-                      (p1 'position) ; x val of p1
-                      600 ; y val of p1
-                      (p1-sprite))
-         (bubble1 'x)
-         (bubble1 'y)
-         (bubble1 'draw))
-       
-        (bubble2 'x)
-        (bubble2 'y)
-        (bubble2 'draw))
-      
-       (bubble3 'x)
-       (bubble3 'y)
-       (bubble3 'draw))
-      (+ 7 (my-hook 'x))
-      (+ (my-hook 'y) 5)
-      (draw-chain-2))
+       (underlay/xy background
+                    (p1 'position) ; x val of p1
+                    600 ; y val of p1
+                    (p1-sprite))
+       (+ 7 (my-hook 'x))
+       (+ (my-hook 'y) 5)
+       (draw-chain-2))
+      ((car bubble-list) 'x)
+      ((car bubble-list) 'y)
+      (draw-bubble-list bubble-list))
      (my-hook 'x)
      (my-hook 'y)
      (hook-sprite))
@@ -105,10 +100,11 @@
   (world-obj)))
 
 (define (update-bubbles)
-  (begin
+  #;(begin
     (update-bubble bubble1)
     (update-bubble bubble2)
     (update-bubble bubble3))
+  (map update-bubble bubble-list)
   )
 
 
