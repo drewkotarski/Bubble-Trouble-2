@@ -31,19 +31,15 @@
       [else size]))
   (define (my-posn)
     (make-posn x y))
-  (define (center-x)
-    (+ x (/ (size-picker) 2)))
-  (define (center-y)
-    (+ y (/ (size-picker) 2)))
 
   (define (top-left-x)
-    x)
+    (- x (size-picker)))
   (define (top-left-y)
-    y)
+    (- y (size-picker)))
   (define (bottom-right-x)
-    (+ x (* 2 (size-picker))))
+    (+ x (size-picker)))
   (define (bottom-right-y)
-    (+ y (* 2 (size-picker))))
+    (+ y (size-picker)))
   
   (define (collision-user)
     (set! color "black"))
@@ -65,14 +61,14 @@
               (set! x-dir 1))))
 
   (define (update-y)
-    (unless (<= y (- GROUND (* 2 (size-picker))))
+    (unless (<= y (- GROUND (size-picker)))
       (set! y-vel (* -6 size)))
       
     (set! y-vel (+ (/ size 6) y-vel))
     (set! y (+ y y-vel))
     )
 
-  (define GROUND 650)
+  (define GROUND 630)
   (define y-vel (* 2 size))
   (define (dispatch comm) ; couldn't figure out how to do an optional arg (val only needed in update case)
     (cond [(equal? comm 'x) x]
@@ -96,8 +92,7 @@
           [(equal? comm 'y-dir) y-dir]
           [(equal? comm 'my-posn) (my-posn)]
 
-          [(equal? comm 'center-x) (center-x)]
-          [(equal? comm 'center-y) (center-y)]
+         
           [(equal? comm 'top-left-x) (top-left-x)]
           [(equal? comm 'top-left-y) (top-left-y)]
           [(equal? comm 'bottom-right-x) (bottom-right-x)]
@@ -136,8 +131,8 @@
     (make-posn x y))
   
   (define (dispatch comm)
-    (cond [(equal? comm 'move-left) (if (< x 1) x (begin (set! x (- x 5)) (set! direction 'left)))]
-          [(equal? comm 'move-right) (if (> x 1068) x (begin (set! x (+ x 5)) (set! direction 'right)))]
+    (cond [(equal? comm 'move-left) (if (< (- x (/ width 2)) 1) x (begin (set! x (- x 5)) (set! direction 'left)))]
+          [(equal? comm 'move-right) (if (> (+ x (/ width 2)) 1068) x (begin (set! x (+ x 5)) (set! direction 'right)))]
           [(equal? comm 'position) x]
           [(equal? comm 'dir) direction]
           [(equal? comm 'my-posn) (my-posn)]
@@ -155,14 +150,14 @@
   dispatch)
 
 (define (hook x y shooting)
-
+  (define height 20)
+  (define width 14)
   (define (top-left-x)
-    x)
+    (- x (/ width 2)))
   (define (top-left-y)
-    y)
+    (- y (/ height 2)))
   (define (bottom-right-x)
-    (+ x 15))
-
+    (+ x (/ width 2)))
 
   ; will eventually be second object that needs an x and y since it will be shot to pop bubbles
   (define orig-y y) ;save what to reset y value to when it reaches the top of the screen
@@ -183,7 +178,7 @@
           [else (error "hook: unknown command --" comm)]))
   dispatch)
 
-(define p1 (player 0 600))
+(define p1 (player 15 630))
 (define my-hook (hook 0 600 'no))
 ;(define        (bubble x y size color x-dir y-dir)
 (define bubble1 (bubble 0 550 1 "blue" 1 1))

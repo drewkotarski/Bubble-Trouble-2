@@ -7,6 +7,7 @@
 (require "objects.rkt")
 
 (define lost? #f)
+(define sound? #f)
 
 (define lives 3)
 
@@ -19,7 +20,7 @@
 (define (draw-HUD)
    (underlay/xy
     (underlay/xy (rectangle 1100 30 "solid" "red")
-                0
+                5
                 5
                 (draw-lives lives))
     500
@@ -56,39 +57,38 @@
 
 
 (define (draw-bubble-list my-bubbles)
-  (foldr (lambda (bubble rest-list) (cons (bubble 'draw) rest-list)) '() my-bubbles))
+  (foldl (lambda (bubble rest-list) (cons (bubble 'draw) rest-list)) '() my-bubbles))
 
 
 (define (posn-bubble-list my-bubbles)
-  (foldr (lambda (bubble rest-list) (cons (bubble 'my-posn) rest-list)) '() my-bubbles))
+  (foldl (lambda (bubble rest-list) (cons (bubble 'my-posn) rest-list)) '() my-bubbles))
 
+(define (obj-list)
+  (foldl cons (draw-bubble-list bubble-list)
+         (list (p1-sprite) (draw-chain) (hook-sprite) (draw-HUD))))
+
+
+(define (posn-list)
+  (foldl cons (posn-bubble-list bubble-list)
+         (list (p1 'my-posn) (chain-posn) (my-hook 'my-posn) (HUD-posn))))
+
+(define (HUD-posn)
+  (make-posn 550 672))
 
 (define (world-obj)
   (place-images
-         (draw-bubble-list bubble-list)
-         (posn-bubble-list bubble-list)
-         
+   (obj-list)
+   (posn-list)
    background))
 
-
-#;(define (world-obj)
-  (place-images
-   (list (p1-sprite)
-         (draw-chain)
-         (hook-sprite)
-         (draw-bubble-list bubble-list)
-         )
-   (list (p1 'my-posn)
-         (my-hook 'my-posn)
-         (my-hook 'my-posn)
-         (posn-bubble-list bubble-list)
-         )
-   background))
-
+(define (chain-posn)
+  (make-posn (my-hook 'x)
+             (+ (my-hook 'y) 450)))
 
 (define (draw-chain)
   (if (my-hook 'is-shooting?)
-  (overlay (rectangle 2 (- 600 (my-hook 'y) 8) "solid" "brown") (rectangle 3 (- 600 (my-hook 'y) 7) "solid" "gray"))
+  (overlay (rectangle 2 900 "solid" "brown")
+           (rectangle 3 900  "solid" "gray"))
   empty-image))
 
 (define (update-screen x)
@@ -97,10 +97,6 @@
   (world-obj)))
 
 (define (update-bubbles)
-  #;(begin
-    (update-bubble bubble1)
-    (update-bubble bubble2)
-    (update-bubble bubble3))
   (map update-bubble bubble-list)
   )
 
@@ -120,7 +116,7 @@
   (my-bubble
                               (cond
                                 [(> (my-bubble 'bottom-right-x) 1099) 'go-left]
-                                [(< (my-bubble 'x) 1) 'go-right]
+                                [(< (my-bubble 'top-left-x) 1) 'go-right]
                                 [else
                                  (if (eq? (my-bubble 'x-dir) 0)
                                      'go-left
