@@ -1,4 +1,5 @@
 #lang racket
+(require lang/posn)
 (require 2htdp/image)
 (require 2htdp/universe)
 (require racket/trace) ; was trying to use this to debug, nothing seems to write until after the window created by big-bang closes though.
@@ -28,7 +29,8 @@
       [(equal? size 4) 64]
       [(equal? size 5) 60]
       [else size]))
-
+  (define (my-posn)
+    (make-posn x y))
   (define (center-x)
     (+ x (/ (size-picker) 2)))
   (define (center-y)
@@ -92,6 +94,7 @@
           [(equal? comm 'color) color]
           [(equal? comm 'x-dir) x-dir]
           [(equal? comm 'y-dir) y-dir]
+          [(equal? comm 'my-posn) (my-posn)]
 
           [(equal? comm 'center-x) (center-x)]
           [(equal? comm 'center-y) (center-y)]
@@ -129,13 +132,15 @@
     (+ x width))
   (define (bottom-right-y)
     (+ y height))
-
+  (define (my-posn)
+    (make-posn x y))
   
   (define (dispatch comm)
     (cond [(equal? comm 'move-left) (if (< x 1) x (begin (set! x (- x 5)) (set! direction 'left)))]
           [(equal? comm 'move-right) (if (> x 1068) x (begin (set! x (+ x 5)) (set! direction 'right)))]
           [(equal? comm 'position) x]
           [(equal? comm 'dir) direction]
+          [(equal? comm 'my-posn) (my-posn)]
           [(equal? comm 'top-left-x) (top-left-x)]
           [(equal? comm 'top-left-y) (top-left-y)]
           [(equal? comm 'bottom-right-x) (bottom-right-x)]
@@ -161,9 +166,12 @@
 
   ; will eventually be second object that needs an x and y since it will be shot to pop bubbles
   (define orig-y y) ;save what to reset y value to when it reaches the top of the screen
+  (define (my-posn)
+    (make-posn x y))
   (define (dispatch comm)
     (cond [(equal? comm 'x) x]
           [(equal? comm 'y) y]
+          [(equal? comm 'my-posn) (my-posn)]
           [(equal? comm 'is-shooting?) (if (equal? shooting 'no) #f #t)]
           [(equal? comm 'start-shooting) (if (equal? shooting 'no) (begin (play arrowSound) (set! shooting 'yes) (set! x (p1 'position))) "shooting")] ; need to debug this, if statement doesn't seem to read properly
           [(equal? comm 'stop-shooting) (set! shooting 'no)]

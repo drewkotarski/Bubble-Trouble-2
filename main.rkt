@@ -1,4 +1,5 @@
 #lang racket
+(require lang/posn)
 (require 2htdp/image)
 (require 2htdp/universe)
 (require racket/trace) ; was trying to use this to debug, nothing seems to write until after the window created by big-bang closes though.
@@ -56,8 +57,8 @@
 
 (define (draw-bubble-list my-bubbles)
   (underlay/xy ((car my-bubbles) 'draw)
-               (- ((cadr my-bubbles) 'x) ((car my-bubbles) 'x))
-               (- ((cadr my-bubbles) 'y) 1100)
+               (- ((cadr my-bubbles) 'x) 1100)
+               (- ((cadr my-bubbles) 'y) 687)
                ((cadr my-bubbles) 'draw))
   )
 
