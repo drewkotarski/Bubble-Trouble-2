@@ -183,13 +183,13 @@
           [else (error "hook: unknown command --" comm)]))
   dispatch)
 
-(define p1 (player 0 550))
-(define my-hook (hook 0 550 'no))
+(define p1 (player 0 600))
+(define my-hook (hook 0 600 'no))
 ;(define        (bubble x y size color x-dir y-dir)
 (define bubble1 (bubble 0 550 1 "blue" 1 1))
 (define bubble2 (bubble 0 400 2 "red" 1 1))
 (define bubble3 (bubble 0 200 3 "yellow" 1 1))
 
-(define bubble-list (list (bubble 0 550 1 "blue" 1 1) (bubble 0 400 2 "red" 1 1) (bubble 0 200 3 "yellow" 1 1)))
+(define bubble-list (list (bubble 200 550 1 "blue" 1 1) (bubble 200 400 2 "red" 1 1) (bubble 200 200 3 "yellow" 1 1)))
 
 (define orig-bubble1 bubble1)

@@ -56,41 +56,37 @@
 
 
 (define (draw-bubble-list my-bubbles)
-  (underlay/xy ((car my-bubbles) 'draw)
-               (- ((cadr my-bubbles) 'x) 1100)
-               (- ((cadr my-bubbles) 'y) 687)
-               ((cadr my-bubbles) 'draw))
-  )
+  (foldr (lambda (bubble rest-list) (cons (bubble 'draw) rest-list)) '() my-bubbles))
+
+
+(define (posn-bubble-list my-bubbles)
+  (foldr (lambda (bubble rest-list) (cons (bubble 'my-posn) rest-list)) '() my-bubbles))
+
 
 (define (world-obj)
-  (underlay/xy
-   (underlay/xy 
-    (underlay/xy
-     (underlay/xy
-      (underlay/xy
-       (underlay/xy background
-                    (p1 'position) ; x val of p1
-                    600 ; y val of p1
-                    (p1-sprite))
-       (+ 7 (my-hook 'x))
-       (+ (my-hook 'y) 5)
-       (draw-chain-2))
-      ((car bubble-list) 'x)
-      ((car bubble-list) 'y)
-      (draw-bubble-list bubble-list))
-     (my-hook 'x)
-     (my-hook 'y)
-     (hook-sprite))
-    0
-    660
-    (draw-HUD))
-   10
-   10
-   (debug-prints))
-  )
+  (place-images
+         (draw-bubble-list bubble-list)
+         (posn-bubble-list bubble-list)
+         
+   background))
 
 
-(define (draw-chain-2)
+#;(define (world-obj)
+  (place-images
+   (list (p1-sprite)
+         (draw-chain)
+         (hook-sprite)
+         (draw-bubble-list bubble-list)
+         )
+   (list (p1 'my-posn)
+         (my-hook 'my-posn)
+         (my-hook 'my-posn)
+         (posn-bubble-list bubble-list)
+         )
+   background))
+
+
+(define (draw-chain)
   (if (my-hook 'is-shooting?)
   (overlay (rectangle 2 (- 600 (my-hook 'y) 8) "solid" "brown") (rectangle 3 (- 600 (my-hook 'y) 7) "solid" "gray"))
   empty-image))
@@ -133,7 +129,7 @@
                              
                              (my-bubble 'update-y) 
 )
-(define (debug-prints)
+#;(define (debug-prints)
   (above
                 (text (string-join `("p1 TL-x:" ,(number->string (p1 'top-left-x)))) 15 "black")
                 (text (string-join `("p1 TL-y:" ,(number->string (p1 'bottom-right-x)))) 15 "black")
@@ -179,7 +175,8 @@
 (define (update-sprites x) (if (> 0 lives) void (begin
                              (update-hook)
                              (update-bubbles)
-                             (check-collisions)
+                             (update-player-collision)
+                             (update-hook-collision)
                              )))
                                         ; reset to original place
 
