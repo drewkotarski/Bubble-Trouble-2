@@ -23,10 +23,10 @@
   (define (size-picker)
     (cond
       [(equal? size 1) 10]
-      [(equal? size 2) 16]
-      [(equal? size 3) 26]
+      [(equal? size 2) 20]
+      [(equal? size 3) 30]
       [(equal? size 4) 40]
-      [(equal? size 5) 70]
+      [(equal? size 5) 60]
       [else size]))
 
   (define (center-x)
@@ -39,9 +39,9 @@
   (define (top-left-y)
     y)
   (define (bottom-right-x)
-    (+ x (size-picker)))
+    (+ x (* 2 (size-picker))))
   (define (bottom-right-y)
-    (+ y (size-picker)))
+    (+ y (* 2 (size-picker))))
   
   (define (collision-user)
     (set! color "black"))
@@ -59,22 +59,22 @@
               (set! x-dir 1))))
 
   (define (update-y)
-    (unless (< y (- GROUND (* 2 (size-picker))))
-      (set! y-vel (* -10 size)))
+    (unless (<= y (- GROUND (* 2 (size-picker))))
+      (set! y-vel (* -6 size)))
       
-    (set! y-vel (+ (/ size 2) y-vel))
+    (set! y-vel (+ (/ size 6) y-vel))
     (set! y (+ y y-vel))
     )
 
-  (define GROUND 680)
+  (define GROUND 650)
   (define y-vel (* 2 size))
   (define (dispatch comm) ; couldn't figure out how to do an optional arg (val only needed in update case)
     (cond [(equal? comm 'x) x]
           [(equal? comm 'y) y]
           [(equal? comm 'GROUND) GROUND]
           
-          [(equal? comm 'go-left)(change-x -1)]
-          [(equal? comm 'go-right)(change-x 1)]
+          [(equal? comm 'go-left)(change-x -5)]
+          [(equal? comm 'go-right)(change-x 5)]
           
           [(equal? comm 'go-up) (change-y -4)]
           [(equal? comm 'go-down)(change-y 4)]
@@ -97,8 +97,8 @@
           [(equal? comm 'bottom-right-y) (bottom-right-y)]
           
           [(equal? comm 'draw) (overlay
-                                (circle (size-picker) "solid" color)
-                                (circle (+ 2 (size-picker)) "solid" "white"))]
+                                (circle (- (size-picker) 2) "solid" color)
+                                (circle (size-picker) "solid" "white"))]
           
           [else (error "bubble: unknown command --" comm)]))
     dispatch)
@@ -164,5 +164,5 @@
 (define my-hook (hook 0 550 'no))
 ;(define        (bubble x y size color x-dir y-dir)
 (define bubble1 (bubble 0 550 1 "blue" 1 1))
-(define bubble2 (bubble 20 400 2 "red" 1 1))
-(define bubble3 (bubble 40 200 3 "yellow" 1 1))
+(define bubble2 (bubble 0 400 2 "red" 1 1))
+(define bubble3 (bubble 0 200 3 "yellow" 1 1))

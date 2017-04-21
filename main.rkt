@@ -86,7 +86,7 @@
      (my-hook 'y)
      (hook-sprite))
     0
-    670
+    660
     (draw-HUD))
    10
    10
@@ -106,40 +106,25 @@
 
 (define (update-bubbles)
   (begin
-    (bubble1
+    (update-bubble bubble1)
+    (update-bubble bubble2)
+    (update-bubble bubble3))
+  )
+
+
+(define (update-bubble my-bubble)
+  (my-bubble
                               (cond
-                                [(> (bubble1 'x) 1058) 'go-left]
-                                [(< (bubble1 'x) 2) 'go-right]
+                                [(> (my-bubble 'bottom-right-x) 1099) 'go-left]
+                                [(< (my-bubble 'x) 1) 'go-right]
                                 [else
-                                 (if (eq? (bubble2 'x-dir) 0)
+                                 (if (eq? (my-bubble 'x-dir) 0)
                                      'go-left
                                      'go-right)]
                                 ))
                              
-                             (bubble1 'update-y) 
-                             (bubble2 'update-y)
-                             (bubble2
-                              (cond
-                                [(> (bubble2 'x) 1048) 'go-left]
-                                [(< (bubble2 'x) 5) 'go-right]
-                                [else
-                                 (if (eq? (bubble2 'x-dir) 0)
-                                     'go-left
-                                     'go-right)]
-                                ))
-                             (bubble3 'update-y)
-                             (bubble3
-                              (cond
-                                [(> (bubble3 'x) 1038) 'go-left]
-                                [(< (bubble3 'x) 0) 'go-right]
-                                [else
-                                 (if (eq? (bubble3 'x-dir) 0)
-                                     'go-left
-                                     'go-right)]
-                                ))
-                             ))
-
-
+                             (my-bubble 'update-y) 
+)
 (define (debug-prints)
   (above
                 (text (string-join `("p1 TL-x:" ,(number->string (p1 'top-left-x)))) 15 "black")
@@ -164,10 +149,13 @@
       void)
   )
 
-(define (update-sprites x) (if (> 0 lives) void (begin
-                             (if (and (my-hook 'is-shooting?) (> (my-hook 'y) 10)) ; if the hook is shooting and it hasn't reached the top of the screen yet
+(define (update-hook)
+  (if (and (my-hook 'is-shooting?) (> (my-hook 'y) 10)) ; if the hook is shooting and it hasn't reached the top of the screen yet
                                  (my-hook 'update) ; keep moving it up 10 pixels
-                                 (my-hook 'reset))
+                                 (my-hook 'reset)))
+
+(define (update-sprites x) (if (> 0 lives) void (begin
+                             (update-hook)
                              (update-bubbles)
                              (check-collisions)
                              )))
