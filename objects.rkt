@@ -45,6 +45,10 @@
   
   (define (collision-user)
     (set! color "black"))
+
+ 
+  (define (collision-bubble)
+    (set! color "white"))
   
   (define (change-y dist)
     (begin(set! y (+ y dist))
@@ -105,8 +109,6 @@
 
 
 
-(define (collision-bubble)
-  1)
 
 
 (define (player x y)
@@ -147,7 +149,17 @@
           [else (error "player: unknown command --" comm)]))
   dispatch)
 
-(define (hook x y shooting) ; will eventually be second object that needs an x and y since it will be shot to pop bubbles
+(define (hook x y shooting)
+
+  (define (top-left-x)
+    x)
+  (define (top-left-y)
+    y)
+  (define (bottom-right-x)
+    (+ x 15))
+
+
+  ; will eventually be second object that needs an x and y since it will be shot to pop bubbles
   (define orig-y y) ;save what to reset y value to when it reaches the top of the screen
   (define (dispatch comm)
     (cond [(equal? comm 'x) x]
@@ -157,6 +169,9 @@
           [(equal? comm 'stop-shooting) (set! shooting 'no)]
           [(equal? comm 'update) (set! y (- y 10))]
           [(equal? comm 'reset) (begin (set! y orig-y) (set! shooting 'no))]
+          [(equal? comm 'top-left-x)(top-left-x)]
+          [(equal? comm 'top-left-y)(top-left-y)]
+          [(equal? comm 'bottom-right-x)(bottom-right-x)]
           [else (error "hook: unknown command --" comm)]))
   dispatch)
 

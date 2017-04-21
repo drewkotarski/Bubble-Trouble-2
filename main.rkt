@@ -107,6 +107,17 @@
   (map update-bubble bubble-list)
   )
 
+(define (update-player-collision)
+  (begin
+    (check-collisions bubble1)
+    (check-collisions bubble2)
+    (check-collisions bubble3)))
+
+(define (update-hook-collision)
+  (begin
+    (check-collisions-hook bubble1)
+    (check-collisions-hook bubble2) 
+    (check-collisions-hook bubble3)))
 
 (define (update-bubble my-bubble)
   (my-bubble
@@ -134,16 +145,30 @@
                 (text (string-join `("b3 BR-y:" ,(number->string (bubble3 'bottom-right-y)))) 15 "black")
                 ))
 
-(define (check-collisions)
+
+(define (check-collisions my-bubble)
   (if (and
-       (> (bubble3 'bottom-right-x) (p1 'top-left-x)) ; if the bottom right corner of the bubble is bigger than top left of player
-       (< (bubble3 'top-left-x) (p1 'bottom-right-x)) ; and top left of bubble is less than bottom right of player
-       (> (bubble3 'bottom-right-y) (p1 'top-left-y)) ; and same for y (but reversed because y axis goes top to bottom)
-       (< (bubble3 'top-left-y) (p1 'bottom-right-y))
+       (> (my-bubble 'bottom-right-x) (p1 'top-left-x)) ; if the bottom right corner of the bubble is bigger than top left of player
+       (< (my-bubble 'top-left-x) (p1 'bottom-right-x)) ; and top left of bubble is less than bottom right of player
+       (> (my-bubble 'bottom-right-y) (p1 'top-left-y)) ; and same for y (but reversed because y axis goes top to bottom)
+       (< (my-bubble 'top-left-y) (p1 'bottom-right-y))
        )
-      (begin (bubble3 'col-sprite) (set! lives (- lives 1)))
+      (begin (my-bubble 'col-sprite) (set! lives (- lives 1)))
       void)
   )
+
+(define (check-collisions-hook my-bubble)
+  (if (and
+       (> (my-bubble 'bottom-right-x) (my-hook 'top-left-x)) ; if the bottom right corner of the bubble is bigger than top left of player
+       (< (my-bubble 'top-left-x) (my-hook 'bottom-right-x)) ; and top left of bubble is less than bottom right of player
+       (> (my-bubble 'bottom-right-y) (my-hook 'top-left-y)) ; and same for y (but reversed because y axis goes top to bottom)
+       (my-hook 'is-shooting?)
+       )
+      (begin (my-bubble 'col-arrow))
+      void)
+  )
+
+
 
 (define (update-hook)
   (if (and (my-hook 'is-shooting?) (> (my-hook 'y) 10)) ; if the hook is shooting and it hasn't reached the top of the screen yet
