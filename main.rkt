@@ -101,16 +101,10 @@
   )
 
 (define (update-player-collision)
-  (begin
-    (check-collisions bubble1)
-    (check-collisions bubble2)
-    (check-collisions bubble3)))
+  (map check-collisions bubble-list))
 
 (define (update-hook-collision)
-  (begin
-    (check-collisions-hook bubble1)
-    (check-collisions-hook bubble2) 
-    (check-collisions-hook bubble3)))
+  (map check-collisions-hook bubble-list))
 
 (define (update-bubble my-bubble)
   (my-bubble
@@ -125,19 +119,6 @@
                              
                              (my-bubble 'update-y) 
 )
-#;(define (debug-prints)
-  (above
-                (text (string-join `("p1 TL-x:" ,(number->string (p1 'top-left-x)))) 15 "black")
-                (text (string-join `("p1 TL-y:" ,(number->string (p1 'bottom-right-x)))) 15 "black")
-                (text (string-join `("p1 BR-x:" ,(number->string (p1 'top-left-y)))) 15 "black")
-                (text (string-join `("p1 BR-y:" ,(number->string (p1 'bottom-right-y)))) 15 "black")
-
-                (text (string-join `("b3 TL-x:" ,(number->string (bubble3 'top-left-x)))) 15 "black")
-                (text (string-join `("b3 TL-y:" ,(number->string (bubble3 'bottom-right-x)))) 15 "black")
-                (text (string-join `("b3 BR-x:" ,(number->string (bubble3 'top-left-y)))) 15 "black")
-                (text (string-join `("b3 BR-y:" ,(number->string (bubble3 'bottom-right-y)))) 15 "black")
-                ))
-
 
 (define (check-collisions my-bubble)
   (if (and
@@ -157,22 +138,21 @@
        (> (my-bubble 'bottom-right-y) (my-hook 'top-left-y)) ; and same for y (but reversed because y axis goes top to bottom)
        (my-hook 'is-shooting?)
        )
-      (begin (my-bubble 'col-arrow))
+      (begin (my-bubble 'col-arrow) (my-hook 'reset))
       void)
   )
-
-
 
 (define (update-hook)
   (if (and (my-hook 'is-shooting?) (> (my-hook 'y) 10)) ; if the hook is shooting and it hasn't reached the top of the screen yet
                                  (my-hook 'update) ; keep moving it up 10 pixels
                                  (my-hook 'reset)))
 
-(define (update-sprites x) (if (> 0 lives) void (begin
+(define (update-sprites x) (if (>= 0 lives) void (begin
                              (update-hook)
                              (update-bubbles)
                              (update-player-collision)
                              (update-hook-collision)
+                             (delete-popped-bubbles)
                              )))
                                         ; reset to original place
 

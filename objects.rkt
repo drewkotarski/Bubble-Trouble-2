@@ -11,15 +11,20 @@
 ;(provide hook)
 (provide my-hook)
 (provide p1)
-(provide bubble1)
-(provide bubble2)
-(provide bubble3)
+;(provide bubble1)
+;(provide bubble2)
+;(provide bubble3)
 (provide bubble-list)
+(provide delete-popped-bubbles)
 
+(define (delete-popped-bubbles)
+  (set! bubble-list (filter (lambda (x) (not (x 'popped?))) bubble-list)))
 
 (define arrowSound (rs-read "arrow.wav"));read in the arrow sound to be played upon shooting
 
-(define (bubble x y size color x-dir y-dir)
+(define (bubble x y size color x-dir y-dir y-vel)
+
+  (define popped? #f)
   
   (define (size-picker)
     (cond
@@ -31,7 +36,7 @@
       [else size]))
   (define (my-posn)
     (make-posn x y))
-
+  
   (define (top-left-x)
     (- x (size-picker)))
   (define (top-left-y)
@@ -46,7 +51,18 @@
 
  
   (define (collision-bubble)
-    (set! color "white"))
+    (begin
+      (set! popped? #t)
+      (if (> size 1)
+          (bubble-split)
+          void)))
+
+  (define (bubble-split)
+    (begin
+      (set! bubble-list (cons
+                         (bubble x y (- size 1) color 0 y-dir (- y-vel 10))
+                         (cons (bubble x y (- size 1) color 1 y-dir (- y-vel 10))
+                               bubble-list)))))
   
   (define (change-y dist)
     (begin(set! y (+ y dist))
@@ -69,14 +85,13 @@
     )
 
   (define GROUND 630)
-  (define y-vel (* 2 size))
   (define (dispatch comm) ; couldn't figure out how to do an optional arg (val only needed in update case)
     (cond [(equal? comm 'x) x]
           [(equal? comm 'y) y]
           [(equal? comm 'GROUND) GROUND]
           
-          [(equal? comm 'go-left)(change-x -5)]
-          [(equal? comm 'go-right)(change-x 5)]
+          [(equal? comm 'go-left)(change-x -2)]
+          [(equal? comm 'go-right)(change-x 2)]
           
           [(equal? comm 'go-up) (change-y -4)]
           [(equal? comm 'go-down)(change-y 4)]
@@ -91,6 +106,7 @@
           [(equal? comm 'x-dir) x-dir]
           [(equal? comm 'y-dir) y-dir]
           [(equal? comm 'my-posn) (my-posn)]
+          [(equal? comm 'popped?) popped?]
 
          
           [(equal? comm 'top-left-x) (top-left-x)]
@@ -180,11 +196,13 @@
 
 (define p1 (player 15 630))
 (define my-hook (hook 0 600 'no))
-;(define        (bubble x y size color x-dir y-dir)
-(define bubble1 (bubble 0 550 1 "blue" 1 1))
-(define bubble2 (bubble 0 400 2 "red" 1 1))
-(define bubble3 (bubble 0 200 3 "yellow" 1 1))
 
-(define bubble-list (list (bubble 200 550 1 "blue" 1 1) (bubble 200 400 2 "red" 1 1) (bubble 200 200 3 "yellow" 1 1)))
+;(define bubble1 (bubble 0 550 1 "blue" 1 1))
+;(define bubble2 (bubble 0 400 2 "red" 1 1))
+;(define bubble3 (bubble 0 200 3 "yellow" 1 1))
+;(define                  (bubble x y size color x-dir y-dir y-vel)
+(define bubble-list (list (bubble 200 550 1 "blue" 1 1 5)
+                          (bubble 200 400 2 "red" 1 1 5)
+                          (bubble 200 200 3 "yellow" 1 1 5)))
 
-(define orig-bubble1 bubble1)
+;(define orig-bubble1 bubble1)
