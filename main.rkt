@@ -212,7 +212,7 @@
                              (update-hook)
                              (update-bubbles)
                              (check-win)
-                            ;; (update-player-collision)
+                             (update-player-collision)
                              (update-hook-collision)
                              (delete-popped-bubbles)
                              )))

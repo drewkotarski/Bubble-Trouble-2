@@ -12,7 +12,6 @@
 (provide bubble-list)
 (provide delete-popped-bubbles)
 
-
 (define (delete-popped-bubbles)
   (set! bubble-list (filter (lambda (x) (not (x 'popped?))) bubble-list)))
 
@@ -199,14 +198,19 @@
 ;(define bubble2 (bubble 0 400 2 "red" 1 1))
 ;(define bubble3 (bubble 0 200 3 "yellow" 1 1))
 ;(define                  (bubble x y size color x-dir y-dir y-vel)
-(define bubble-list (list (bubble 200 550 1 "blue" 1 1 5)
-                          (bubble 200 400 2 "red" 1 1 5)
-                          (bubble 200 200 3 "yellow" 1 1 5)))
 
 (define (level-1)
   (list (bubble 200 550 1 "blue" 1 1 5)
-                          (bubble 200 400 2 "red" 1 1 5)
-                          (bubble 200 200 3 "yellow" 1 1 5)))
+        (bubble 200 400 2 "red" 1 1 5)
+        (bubble 200 200 3 "yellow" 1 1 5)))
+
+(define (level-2)
+  (list (bubble 200 550 1 "purple" 1 1 5)
+        (bubble 200 500 1 "purple" 1 1 5)
+        (bubble 200 400 2 "indigo" 1 1 5)
+        (bubble 200 200 3 "blue" 1 1 5)))
+
+(define bubble-list (level-2))
 
 (define (initialize-level n)
   (cond [(= n 1) (set! bubble-list (level-1))]
