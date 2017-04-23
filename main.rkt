@@ -8,6 +8,7 @@
 
 (define lost? #f)
 (define sound? #f)
+(define win? #f)
 
 (define lives 3)
 
@@ -71,12 +72,19 @@
 
 (define (obj-list)
   (foldl cons (draw-bubble-list bubble-list)
-         (list (p1-sprite) (draw-chain) (hook-sprite) (draw-HUD))))
+         (list (p1-sprite) (draw-chain) (hook-sprite) (draw-HUD) (num-list))))
 
+(define (num-list)
+  (text (string-append "num balls: "
+                       (number->string (length bubble-list)))
+        20
+        "white")
+  )
 
+     
 (define (posn-list)
   (foldl cons (posn-bubble-list bubble-list)
-         (list (p1 'my-posn) (chain-posn) (my-hook 'my-posn) (HUD-posn))))
+         (list (p1 'my-posn) (chain-posn) (my-hook 'my-posn) (HUD-posn) (make-posn 100 100))))
 
 (define (HUD-posn)
   (make-posn 550 672))
@@ -88,12 +96,15 @@
    lost-img))
 
 (define (world-obj)
-  (if lost?
-      (lost-screen)
-      (place-images
-       (obj-list)
-       (posn-list)
-       background)))
+  (cond
+    [lost? (lost-screen)]
+    [win? (win-screen)]
+    [else
+     (place-images
+      (obj-list)
+      (posn-list)
+      background)]
+    ))
 
 (define (chain-posn)
   (make-posn (my-hook 'x)
@@ -158,11 +169,14 @@
   (if (and (my-hook 'is-shooting?) (> (my-hook 'y) 10)) ; if the hook is shooting and it hasn't reached the top of the screen yet
                                  (my-hook 'update) ; keep moving it up 10 pixels
                                  (my-hook 'reset)))
+(define (check-win)
+  (if (= 0 (length bubble-list))(set! win? #t) void))
 
 (define (update-sprites x) (if (>= 0 lives) void (begin
                              (update-hook)
                              (update-bubbles)
-                             (update-player-collision)
+                             (check-win)
+                            ;; (update-player-collision)
                              (update-hook-collision)
                              (delete-popped-bubbles)
                              )))
@@ -173,4 +187,3 @@
 (big-bang 'world0
           (on-tick update-sprites); don't fully understand what this does but it's in the example
           (on-key change) ; check for key events (left, right or space)
-          (to-draw update-screen)) ; update sprite (sprites eventually, hopefully
