@@ -12,7 +12,8 @@
 
 (define lives 3)
 
-(define level 5)
+
+(define debug-mouseEvent 1)
 
 (define current-level 1)
 
@@ -28,7 +29,7 @@
                 (draw-lives lives))
     500
     5
-    (text (string-join `("LEVEL:" ,(number->string level))) 20 "black")))
+    (text (string-join `("LEVEL:" ,(number->string current-level))) 20 "black")))
     
 ;(text (string #\L #\I #\V #\E #\S #\: #\ (integer->char num-lives)) 5 "black")))
 (define arrowSound (rs-read "arrow.wav"));read in the arrow sound to be played upon shooting
@@ -52,7 +53,7 @@
   (if (my-hook 'is-shooting?) my-hook-sprite empty-image))
 
 ;handle key events
-(define (change w a-key)
+(define (keypress w a-key)
   (cond [(key=? a-key "left") (p1 'move-left)]
         [(key=? a-key "right") (p1 'move-right)]
         [(key=? a-key " ") (my-hook 'start-shooting)]
@@ -62,6 +63,26 @@
                                          (if (<= lives 0) (set! lost? #t) void)))]
         [else (p1 'face-up)]))
 
+
+(define (replay-level)
+  (begin (initialize-level current-level)
+         (set! lives 3)
+         (set! lost? #f)
+         (set! win? #f)))
+
+(define (click-location x y)
+  (if (and (> x 270)
+           (< x 670)
+           (> y 300)
+           (< y 460))
+      (replay-level)
+      void))
+
+(define (mouseclick b x y mouseEvent)
+  (set! debug-mouseEvent y)
+  (cond [(string=? "button-down" mouseEvent) (click-location x y)]
+        [else x]))
+        
 
 (define (draw-bubble-list my-bubbles)
   (foldl (lambda (bubble rest-list) (cons (bubble 'draw) rest-list)) '() my-bubbles))
@@ -75,8 +96,7 @@
          (list (p1-sprite) (draw-chain) (hook-sprite) (draw-HUD) (num-list))))
 
 (define (num-list)
-  (text (string-append "num balls: "
-                       (number->string (length bubble-list)))
+  (text (number->string debug-mouseEvent)
         20
         "white")
   )
@@ -91,8 +111,13 @@
 
 (define (lost-screen)
   (place-images
-   (list (text "YOU DEAD!" 90 "black"))
-   (list (make-posn 650 200))
+   (list (text "YOU DEAD!" 90 "black")
+         (overlay (text "replay?" 40 "black")
+                  (rectangle 190 70 "solid" "red")
+                  (rectangle 200 80 "solid" "black")
+                  ))
+   (list (make-posn 470 200)
+         (make-posn 470 380))
    lost-img))
 
 (define (win-screen)
@@ -189,5 +214,6 @@
 
 (big-bang 'world0
           (on-tick update-sprites); don't fully understand what this does but it's in the example
-          (on-key change)
+          (on-key keypress)
+          (on-mouse mouseclick)
           (to-draw update-screen)) ; check for key events (left, right or space)

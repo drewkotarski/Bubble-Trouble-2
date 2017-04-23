@@ -12,6 +12,7 @@
 (provide bubble-list)
 (provide delete-popped-bubbles)
 
+
 (define (delete-popped-bubbles)
   (set! bubble-list (filter (lambda (x) (not (x 'popped?))) bubble-list)))
 
@@ -170,7 +171,7 @@
     (- y (/ height 2)))
   (define (bottom-right-x)
     (+ x (/ width 2)))
-
+  
   ; will eventually be second object that needs an x and y since it will be shot to pop bubbles
   (define orig-y y) ;save what to reset y value to when it reaches the top of the screen
   (define (my-posn)
@@ -189,6 +190,7 @@
           [(equal? comm 'bottom-right-x)(bottom-right-x)]
           [else (error "hook: unknown command --" comm)]))
   dispatch)
+
 
 (define p1 (player 15 630))
 (define my-hook (hook 0 600 'no))
