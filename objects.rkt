@@ -79,8 +79,9 @@
   (define (update-y)
     (unless (<= y (- GROUND (size-picker)))
       (set! y-vel (* -6 size)))
-      
-    (set! y-vel (+ (/ size 6) y-vel))
+    (if (<= y (+ 0 (* 2 (size-picker))))
+        (set! y-vel 2)
+        (set! y-vel (+ (/ size 6) y-vel)))
     (set! y (+ y y-vel))
     )
 

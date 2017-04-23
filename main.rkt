@@ -150,7 +150,7 @@
 (define (update-sprites x) (if (>= 0 lives) void (begin
                              (update-hook)
                              (update-bubbles)
-                             (update-player-collision)
+                             ;(update-player-collision)
                              (update-hook-collision)
                              (delete-popped-bubbles)
                              )))
