@@ -72,3 +72,4 @@ will work on...
 - Polishing the player controls I already implemented in my exploration, possibly adding multiple sprites for when walking left/right
 - Creating a HUD that will show a menu for enabling/disabling sound, a timer, and level indicator, as well as basic bubble physics
 - Any necessary bug fixing related to this, as well as helping with collision detection/drawing multiple objects when necessary.
+lost screen image from http://4vector.com/i/free-vector-laughing-and-pointing-emoticon_133428_Laughing_and_pointing_emoticon.jpg
