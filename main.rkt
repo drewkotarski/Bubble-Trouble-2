@@ -11,10 +11,12 @@
 (define win? #f)
 
 (define lives 3)
-
 (define level 5)
-
 (define current-level 1)
+
+(define (next-level)
+  (set! current-level (+ 1 current-level)))
+
 
 (define (draw-lives n)
   (if (> n 0)
@@ -28,7 +30,7 @@
                 (draw-lives lives))
     500
     5
-    (text (string-join `("LEVEL:" ,(number->string level))) 20 "black")))
+    (text (string-join `("LEVEL:" ,(number->string current-level))) 20 "black")))
     
 ;(text (string #\L #\I #\V #\E #\S #\: #\ (integer->char num-lives)) 5 "black")))
 (define arrowSound (rs-read "arrow.wav"));read in the arrow sound to be played upon shooting
@@ -48,6 +50,7 @@
 
 (define background (bitmap "background.jpg"))
 (define lost-img (bitmap "lost.jpg"))
+(define win-img (bitmap "win.jpg"))
 (define (hook-sprite)
   (if (my-hook 'is-shooting?) my-hook-sprite empty-image))
 
@@ -65,7 +68,6 @@
 
 (define (draw-bubble-list my-bubbles)
   (foldl (lambda (bubble rest-list) (cons (bubble 'draw) rest-list)) '() my-bubbles))
-
 
 (define (posn-bubble-list my-bubbles)
   (foldl (lambda (bubble rest-list) (cons (bubble 'my-posn) rest-list)) '() my-bubbles))
@@ -96,7 +98,10 @@
    lost-img))
 
 (define (win-screen)
-  (text "YOU WIN!" 90 "red"))
+  (place-images
+   (list(text "YOU WIN!" 90 "red"))
+   (list (make-posn 650 200))
+   win-img))
 
 (define (world-obj)
   (cond
@@ -173,7 +178,9 @@
                                  (my-hook 'update) ; keep moving it up 10 pixels
                                  (my-hook 'reset)))
 (define (check-win)
-  (if (= 0 (length bubble-list))(set! win? #t) void))
+  (if (= 0 (length bubble-list))
+      (set! win? #t)
+      void))
 
 (define (update-sprites x) (if (>= 0 lives) void (begin
                              (update-hook)
