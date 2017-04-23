@@ -55,7 +55,10 @@
   (cond [(key=? a-key "left") (p1 'move-left)]
         [(key=? a-key "right") (p1 'move-right)]
         [(key=? a-key " ") (my-hook 'start-shooting)]
-        [(key=? a-key "r") (initialize-level current-level)]
+        [(key=? a-key "k") (begin (begin ((car bubble-list) 'col-sprite)
+                                         (set! lives (- lives 1))
+                                         (initialize-level current-level)
+                                         (if (<= lives 0) (set! lost? #t) void)))]
         [else (p1 'face-up)]))
 
 
@@ -78,11 +81,16 @@
 (define (HUD-posn)
   (make-posn 550 672))
 
+(define (lost-screen)
+  (text "YOU DEAD!" 90 "black"))
+
 (define (world-obj)
-  (place-images
-   (obj-list)
-   (posn-list)
-   background))
+  (if lost?
+      (lost-screen)
+      (place-images
+       (obj-list)
+       (posn-list)
+       background)))
 
 (define (chain-posn)
   (make-posn (my-hook 'x)
@@ -95,9 +103,7 @@
   empty-image))
 
 (define (update-screen x)
-  (if (equal? lives 0)
-      (text "YOU DEAD!" 90 "black")
-  (world-obj)))
+  (world-obj))
 
 (define (update-bubbles)
   (map update-bubble bubble-list)
@@ -130,7 +136,7 @@
        (> (my-bubble 'bottom-right-y) (p1 'top-left-y)) ; and same for y (but reversed because y axis goes top to bottom)
        (< (my-bubble 'top-left-y) (p1 'bottom-right-y))
        )
-      (begin (my-bubble 'col-sprite) (set! lives (- lives 1)))
+      (begin (my-bubble 'col-sprite) (set! lives (- lives 1)) (if (<= 0 lives) (set! lost? #t) void))
       void)
   )
 
