@@ -95,6 +95,9 @@
    (list (make-posn 650 200))
    lost-img))
 
+(define (win-screen)
+  (text "YOU WIN!" 90 "red"))
+
 (define (world-obj)
   (cond
     [lost? (lost-screen)]
@@ -186,4 +189,5 @@
 
 (big-bang 'world0
           (on-tick update-sprites); don't fully understand what this does but it's in the example
-          (on-key change) ; check for key events (left, right or space)
+          (on-key change)
+          (to-draw update-screen)) ; check for key events (left, right or space)
