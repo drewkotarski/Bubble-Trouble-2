@@ -6,14 +6,9 @@
 (require rsound)
 ;sprites from http://vignette2.wikia.nocookie.net/finalfantasy/images/2/2f/FF6_iOS_Ghost_Sprites.png/revision/latest?cb=20140908174159
 
-;(provide bubble)
-;(provide player)
-;(provide hook)
 (provide my-hook)
 (provide p1)
-;(provide bubble1)
-;(provide bubble2)
-;(provide bubble3)
+(provide initialize-level)
 (provide bubble-list)
 (provide delete-popped-bubbles)
 
@@ -206,4 +201,11 @@
                           (bubble 200 400 2 "red" 1 1 5)
                           (bubble 200 200 3 "yellow" 1 1 5)))
 
-;(define orig-bubble1 bubble1)
+(define (level-1)
+  (list (bubble 200 550 1 "blue" 1 1 5)
+                          (bubble 200 400 2 "red" 1 1 5)
+                          (bubble 200 200 3 "yellow" 1 1 5)))
+
+(define (initialize-level n)
+  (cond [(= n 1) (set! bubble-list (level-1))]
+        [else (error "hoijoiejrwoeirj")]))

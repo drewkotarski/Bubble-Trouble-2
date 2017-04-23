@@ -13,6 +13,8 @@
 
 (define level 5)
 
+(define current-level 1)
+
 (define (draw-lives n)
   (if (> n 0)
       (beside (circle 8 "solid" "black") (draw-lives (- n 1))) empty-image))
@@ -53,6 +55,7 @@
   (cond [(key=? a-key "left") (p1 'move-left)]
         [(key=? a-key "right") (p1 'move-right)]
         [(key=? a-key " ") (my-hook 'start-shooting)]
+        [(key=? a-key "r") (initialize-level current-level)]
         [else (p1 'face-up)]))
 
 
@@ -150,7 +153,7 @@
 (define (update-sprites x) (if (>= 0 lives) void (begin
                              (update-hook)
                              (update-bubbles)
-                             ;(update-player-collision)
+                             (update-player-collision)
                              (update-hook-collision)
                              (delete-popped-bubbles)
                              )))
