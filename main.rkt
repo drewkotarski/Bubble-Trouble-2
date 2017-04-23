@@ -46,7 +46,7 @@
 (define my-hook-sprite (bitmap "arrow.png"))
 
 (define background (bitmap "background.jpg"))
-
+(define lost-img (bitmap "lost.jpg"))
 (define (hook-sprite)
   (if (my-hook 'is-shooting?) my-hook-sprite empty-image))
 
@@ -82,7 +82,10 @@
   (make-posn 550 672))
 
 (define (lost-screen)
-  (text "YOU DEAD!" 90 "black"))
+  (place-images
+   (list (text "YOU DEAD!" 90 "black"))
+   (list (make-posn 650 200))
+   lost-img))
 
 (define (world-obj)
   (if lost?
