@@ -17,10 +17,10 @@
 
 (define arrowSound (rs-read "arrow.wav"));read in the arrow sound to be played upon shooting
 
-(define (bubble x y size color x-dir y-dir y-vel)
+(define (bubble x y size color x-dir y-dir)
 
   (define popped? #f)
-  
+  (define y-vel (* -1 size))
   (define (size-picker)
     (cond
       [(equal? size 1) 8]
@@ -40,10 +40,6 @@
     (+ x (size-picker)))
   (define (bottom-right-y)
     (+ y (size-picker)))
-  
-  (define (collision-user)
-    (set! color "black"))
-
  
   (define (collision-bubble)
     (begin
@@ -55,8 +51,8 @@
   (define (bubble-split)
     (begin
       (set! bubble-list (cons
-                         (bubble x y (- size 1) color 0 y-dir (- y-vel 10))
-                         (cons (bubble x y (- size 1) color 1 y-dir (- y-vel 10))
+                         (bubble x y (- size 1) color 0 y-dir)
+                         (cons (bubble x y (- size 1) color 1 y-dir)
                                bubble-list)))))
   
   (define (change-y dist)
@@ -93,7 +89,6 @@
           [(equal? comm 'go-down)(change-y 4)]
           [(equal? comm 'update-y) (update-y)]
 
-          [(equal? comm 'col-sprite)(collision-user)]
           [(equal? comm 'col-arrow)(collision-bubble)]
           
           [(equal? comm 'size) size]
@@ -125,7 +120,8 @@
   (define direction 'up)
   (define width 30)
   (define height 50)
-
+  (define orig-x 15)
+  
   (define (center-x)
     (+ x (/ width 2)))
   (define (center-y)
@@ -148,6 +144,7 @@
           [(equal? comm 'position) x]
           [(equal? comm 'dir) direction]
           [(equal? comm 'my-posn) (my-posn)]
+          [(equal? comm 'reset-posn) (set! x orig-x)]
           [(equal? comm 'top-left-x) (top-left-x)]
           [(equal? comm 'top-left-y) (top-left-y)]
           [(equal? comm 'bottom-right-x) (bottom-right-x)]
@@ -197,21 +194,23 @@
 ;(define bubble1 (bubble 0 550 1 "blue" 1 1))
 ;(define bubble2 (bubble 0 400 2 "red" 1 1))
 ;(define bubble3 (bubble 0 200 3 "yellow" 1 1))
-;(define                  (bubble x y size color x-dir y-dir y-vel)
+;(define (bubble x y size color x-dir y-dir)
 
 (define (level-1)
-  (list (bubble 200 550 1 "blue" 1 1 5)
-        (bubble 200 400 2 "red" 1 1 5)
-        (bubble 200 200 3 "yellow" 1 1 5)))
+  (list (bubble 200 550 1 "blue" 1 1)
+        (bubble 200 400 2 "red" 1 1)
+        (bubble 200 200 3 "yellow" 1 1)))
 
 (define (level-2)
-  (list (bubble 200 550 1 "purple" 1 1 5)
-        (bubble 200 500 1 "purple" 1 1 5)
-        (bubble 200 400 2 "indigo" 1 1 5)
-        (bubble 200 200 3 "blue" 1 1 5)))
+  (list (bubble 200 550 1 "purple" 1 1)
+        (bubble 200 500 1 "purple" 1 1)
+        (bubble 200 400 2 "indigo" 1 1)
+        (bubble 200 200 3 "blue" 1 1)))
 
 (define bubble-list (level-2))
 
 (define (initialize-level n)
-  (cond [(= n 1) (set! bubble-list (level-1))]
-        [else (error "hoijoiejrwoeirj")]))
+  (begin (p1 'reset-posn)
+         (my-hook 'reset)
+         (cond [(= n 1) (set! bubble-list (level-1))]
+               [else (error "hoijoiejrwoeirj")])))

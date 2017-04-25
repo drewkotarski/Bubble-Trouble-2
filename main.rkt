@@ -61,10 +61,9 @@
   (cond [(key=? a-key "left") (p1 'move-left)]
         [(key=? a-key "right") (p1 'move-right)]
         [(key=? a-key " ") (my-hook 'start-shooting)]
-        [(key=? a-key "k") (begin (begin ((car bubble-list) 'col-sprite)
-                                         (set! lives (- lives 1))
+        [(key=? a-key "k") (begin (set! lives (- lives 1))
                                          (initialize-level current-level)
-                                         (if (<= lives 0) (set! lost? #t) void)))]
+                                         (if (<= lives 0) (set! lost? #t) void))]
         [else (p1 'face-up)]))
 
 
@@ -184,7 +183,7 @@
        (> (my-bubble 'bottom-right-y) (p1 'top-left-y)) ; and same for y (but reversed because y axis goes top to bottom)
        (< (my-bubble 'top-left-y) (p1 'bottom-right-y))
        )
-      (begin (my-bubble 'col-sprite) (set! lives (- lives 1)) (if (<= 0 lives) (set! lost? #t) void))
+      (begin (set! lives (- lives 1)) (if (<= 0 lives) (set! lost? #t) void))
       void)
   )
 
