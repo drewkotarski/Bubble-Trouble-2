@@ -4,7 +4,50 @@
 Our project is a racket remake of the flash game "Bubble Trouble". It's interesting because we learn how to use racket libraries and implement and manipulate different objects with a functional language. It's interesting to us because we both played it in elementary/middle school so it's nostalgic. We hope to learn how to apply some of the concepts we learned in class to a project that has a clear result of what we want to see in the end.
 
 ### Analysis
-We will be using object orientation to hold our "player" object, "hook" or object that will be shot from the player to pop bubbles. To manipulate these objects, we will use data abstraction to update the x/y variables, as well as delete objects from the universe. To check whether collisions occurred (either hook hits bubble, or bubble hits player) we will filter over the objects x/y positions. state modification will be used within each object to update the location, for example. if the left arrow key is held, the player will move 10 units to the left (set! x (- x 10)). 
+We used object orientation to hold our "bubble" objects, "player" object, "hook" object that will be shot from the player to pop bubbles. To manipulate these objects, we used data abstraction to update the x/y variables, and filter to delete objects from the universe. To check whether collisions occurred (either hook hits bubble, or bubble hits player) we mapped over the objects x/y positions. state modification will be used within each object to update the location, for example. if the left arrow key is held, the player will move 10 units to the left (set! x (- x 10)). 
+
+### Filter
+Filter was used to delete "popped" bubbles on the list by checking a flag that was set within each bubble object during hook-bubble collision detection.
+```racket
+(define (delete-popped-bubbles)
+  (set! bubble-list (filter (lambda (x) (not (x 'popped?))) bubble-list)))
+```
+
+### Map
+Map was used to update the location of each bubble in the list, as well as check for player-bubble and hook-bubble collisions.
+
+```racket
+(define (update-bubbles)
+  (map update-bubble bubble-list)
+  )
+
+(define (update-player-collision)
+  (map check-collisions bubble-list))
+
+(define (update-hook-collision)
+  (map check-collisions-hook bubble-list))
+
+```
+
+### Fold
+Fold was used to build the list of images that place-images takes. Place-images takes a list of images, then a list of their corresponding x/y coordinates.
+
+```racket
+(define (posn-bubble-list my-bubbles)
+  (foldl (lambda (bubble rest-list) (cons (bubble 'my-posn) rest-list)) '() my-bubbles))
+
+(define (obj-list)
+  (foldl cons (draw-bubble-list bubble-list)
+         (list (p1-sprite) (draw-chain) (hook-sprite) (draw-HUD) (num-list))))
+
+(define (draw-bubble-list my-bubbles)
+  (foldl (lambda (bubble rest-list) (cons (bubble 'draw) rest-list)) '() my-bubbles))
+     
+(define (posn-list)
+  (foldl cons (posn-bubble-list bubble-list)
+         (list (p1 'my-posn) (chain-posn) (my-hook 'my-posn) (HUD-posn) (make-posn 100 100))))
+
+```
 
 ### External Technologies
 Our project will generate or produce sound, because the original flash game produces sounds as well. When the hook is deployed, 
@@ -17,19 +60,11 @@ from scratch in order to understand and reinforce the concepts learned in this c
 
 ### Deliverable and Demonstration
 
-What we will have at the end of this semester is are playable levels that resemble those of the original game. At the live demo, we 
-we will be able to run our racket code and have observers play the levels that we have successfully emulated. The player will be able 
-to deploy the hook with the space bar, move the characcter with the arrow keys, and interact with objects successfully in the game 
-itself. 
-
-What will be produced at the end of the project is and interactive deliverable that anyone can play on- which will produce the same 
-results no matter who is playing it. This means that the project will work to the means that we have specified in our code as well 
-as our proposal, where no matter how the user interacts with our project it will not break. 
+We now have a playable demo of a few levels, though there's no way to automatically go to the next or previous level without restarting the game and changing in the code which level to load, though there is a replay button.
 
 ### Evaluation of Results
-We will know that we are successful if we can reproduce one level from the game with some margin of similarity, with the most
-simple level (level 1) successfully emulated. We will be successful if we can produce level 1 from 'Bubble trouble 2' that uses the 
-same user inputs as the game, produces the same results when the imputs are used, and dose not break when other imputs are selected. 
+
+We know we are successful since we were able to recreate the first level in "Bubble Trouble".
 
 ## Architecture Diagram
 Upload the architecture diagram you made for your slide presentation to your repository, and include it in-line here.
@@ -68,9 +103,13 @@ will work on...
 - Bug fixing before the final presentation, as well as helping with the HUD and bubble physics
 
 ### Michael Danino @mdanino94
-will work on... 
-- Polishing the player controls I already implemented in my exploration, possibly adding multiple sprites for when walking left/right
-- Creating a HUD that will show a menu for enabling/disabling sound, a timer, and level indicator, as well as basic bubble physics
-- Any necessary bug fixing related to this, as well as helping with collision detection/drawing multiple objects when necessary.
+- Polished the player controls I already implemented in my exploration, added multiple sprites for when walking left/right
+- Created a HUD that shows a level indicator and the number of lives left. 
+- Implemented basic bubble physics
+- Helped with player-bubble collision detection.
+- Changed original implementation with hard-coded bubble objects to a list of bubble objects that can be mapped/filtered/folded on.
+- Random bug fixing
+
 lost screen image from http://4vector.com/i/free-vector-laughing-and-pointing-emoticon_133428_Laughing_and_pointing_emoticon.jpg
+
 win screen image from http://gclipart.com/wp-content/uploads/2017/02/Smiling-sun-with-sunglasses-clipart.jpeg
