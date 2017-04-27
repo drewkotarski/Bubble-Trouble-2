@@ -50,58 +50,60 @@ Fold was used to build the list of images that place-images takes. Place-images 
 ```
 
 ### External Technologies
-Our project will generate or produce sound, because the original flash game produces sounds as well. When the hook is deployed, 
+Our project generated sound, because the original flash game produces sounds as well. When the hook is deployed, 
 a bubble is popped, or the player is hit by a bubble a specific sound that is associated with each action is prodcued. The sounds do 
 not differ when the same action is performed. 
 
 ### Data Sets or other Source Materials
-We are not going to be using data sets or other source materials. We are attempting to emulate the classic flash game 'Bubble trouble 2'
+We did not use data sets or other source materials. We were attempting to emulate the classic flash game 'Bubble trouble 2'
 from scratch in order to understand and reinforce the concepts learned in this class in an applicative way. 
 
 ### Deliverable and Demonstration
 
-We now have a playable demo of a few levels, though there's no way to automatically go to the next or previous level without restarting the game and changing in the code which level to load, though there is a replay button.
+We now have a playable demo of the first five levels desgined. There is a replay button that allows the user to play the level again in case they die. There is no way to go back to a previous level without restarting the game, though.
 
 ### Evaluation of Results
 
 We know we are successful since we were able to recreate the first level in "Bubble Trouble".
 
 ## Architecture Diagram
+![GitHub Logo](/software flow chart.png)
+Format: ![Alt Text](url)
 Upload the architecture diagram you made for your slide presentation to your repository, and include it in-line here.
 
 Create several paragraphs of narrative to explain the pieces and how they interoperate.
 
 ## Schedule
-From this proposal, we will take the code that we have already written in our first and second explorations and commit them to one
-repository (this repository). We will then combine the concepts that we have worked on in our explorations into one file that will 
-be our deliverable file, which we will work on together at a high level so that we both know what needs to be done and what is going on. 
+From this proposal, we took the code that we have already written in our first and second explorations and committed them to one
+repository (this repository). We then combined the concepts that we have worked on in our explorations into one file that is our deliverable file, which we worked on together at a high level so that we both knew what needed to be done and what was going on. 
 
-From our combined explorations, we will then work towards our first milestone - getting multiple objects drawn to the sceen as well as
+From our combined explorations, we then worked towards our first milestone - getting multiple objects drawn to the sceen as well as
 player controls. 
 
-From our first milestone, we will then work on object collison detection and creating a head-up display (HUD) until we have completed 
+From our first milestone, we worked on object collison detection and creating a head-up display (HUD) until we have completed 
 those tasks for our second milestone. 
 
-From our second milestone, we will work on fixing bugs, outlying errors, and time permitting the creation of multiple levels to 
+From our second milestone, we worked on fixing bugs, outlying errors, and time permitting the creation of multiple levels to 
 create our deliverable project. 
 
 ### First Milestone (Sun Apr 9)
-We will have multiple objects drawn to the screen as well as player controls implemented.
+We have multiple objects drawn to the screen as well as player controls implemented.
 
 ### Second Milestone (Sun Apr 16)
-We will have object collison detection, basic bubble physics (when a bubble pops, it splits into 2 and bounces at a lower/higher height, etc.) and creating a head-up display (HUD) implemented.   
+We have object collison detection, basic bubble physics (when a bubble pops, it splits into 2 and bounces at a lower/higher height, etc.) and creating a head-up display (HUD) implemented.   
 
 ### Public Presentation (Mon Apr 24, Wed Apr 26, or Fri Apr 28 [your date to be determined later])
-We will have bugs fixed, outlying errors fixed, and time permitting multiple levels implemented. 
+We have bugs fixed, outlying errors fixed, and time permitting multiple levels implemented. 
 
 ## Group Responsibilities
 
 ### Molly McGuire @mollyelizabethmcguire11
-will work on... 
-- Drawing objects to the sceen for milestone 1, which includes bubbles, the user, and the hook 
-- Collision detection for milestone 2, which includes bubble and hook collision and bubble and player collisions
-- Bug fixing before the final presentation, as well as helping with the HUD and bubble physics
-
+- Displayed objects to the screen
+- Implemented hook-bubble detection
+- Initially bounded bubbles to the constraints of the screen
+- Implemented initial left and right bubble movements 
+- Implemented multiple levels
+- Randomn bug fixing
 ### Michael Danino @mdanino94
 - Polished the player controls I already implemented in my exploration, added multiple sprites for when walking left/right
 - Created a HUD that shows a level indicator and the number of lives left. 
