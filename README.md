@@ -60,7 +60,8 @@ from scratch in order to understand and reinforce the concepts learned in this c
 
 ### Deliverable and Demonstration
 
-We now have a playable demo of the first five levels desgined. There is a replay button that allows the user to play the level again in case they die. There is no way to go back to a previous level without restarting the game, though.
+We now have a playable demo of the first five levels desgined. There is a replay button that allows the user to play the level again 
+in case they die. There is no way to go back to a previous level without restarting the game, though.
 
 ### Evaluation of Results
 
@@ -68,9 +69,30 @@ We know we are successful since we were able to recreate the first level in "Bub
 
 ## Architecture Diagram
 ![software flow chart](https://github.com/oplS17projects/Bubble-Trouble-2/blob/master/software%20flow%20chart.png)
-Upload the architecture diagram you made for your slide presentation to your repository, and include it in-line here.
 
-Create several paragraphs of narrative to explain the pieces and how they interoperate.
+As noted in the Architecture diagram, our propgram starts through updating each frame. This is because we are using the universe library
+and in order to animate our game, we had to pass objects into the library functions that allow us to do so. Every time the world that we
+created gets update, it updates our 3 object classes: the player, the balls, and the hook. These object's relative positions are
+updated, and by analyzing where each object is we are able to tell what is going on and how to react to key situations. 
+
+The position of certain objects are checked every time the world updates. The position of the hook and all bubbles is checked every 
+update cycle because if the hook and a bubble intersect, the bubble should either split into two or disappear. The position of the 
+player and the position of all bubbles is checked every cycle because if the player and a bubble intersect, the player should lose a
+life. These bounds that intesect are determined by the size of each bubble, the bounded box of the player, and the dimensions of the
+deployed hook.
+
+If a bubble and the hook intersect, there are 2 possible outcomes. If this bubble is the last bubble in our defined bubble-list list,
+the level has been cleared and the player may advance to the next level. If the bubble is not the last bubble in the list, we then must
+split it or remvoe it from the list. The smallest bubbles, of defined 'size 1' are the smallest bubbles that can exist in this game. If
+a bubble of 'size 1' is popped, it is removed from the bubble list. If a bubble greater than that of 'size 1' is popped, that bubble is
+removed from the bubble list and replaced with two bubbles of one lesser size. This proceess is repeated until the level is cleared or 
+until the player has lost.
+
+If a bubble and the player intersect, the display must reset to it's starting coordinates. If the player has more than 0 lives left, 
+they can keep playing the level. If they are hit with a bubble and they have lost their last life, the player is shamed with a 
+humiliating loss screen and promted to retry. The retry does not send the player back to level 1, because the shame of getting the loss 
+screen is punishment enough. 
+
 
 ## Schedule
 From this proposal, we took the code that we have already written in our first and second explorations and committed them to one
