@@ -67,8 +67,7 @@ We now have a playable demo of the first five levels desgined. There is a replay
 We know we are successful since we were able to recreate the first level in "Bubble Trouble".
 
 ## Architecture Diagram
-![GitHub Logo](/software flow chart.png)
-Format: ![Alt Text](url)
+![software flow chart](https://github.com/oplS17projects/Bubble-Trouble-2/blob/master/software%20flow%20chart.png)
 Upload the architecture diagram you made for your slide presentation to your repository, and include it in-line here.
 
 Create several paragraphs of narrative to explain the pieces and how they interoperate.
