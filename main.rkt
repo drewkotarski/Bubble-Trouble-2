@@ -15,10 +15,14 @@
 (define debug-mouseEvent 1)
 
 (define current-level 1)
+(define level-2 2)
+(define level-3 3)
+(define level-4 4)
+(define level-5 5)
 
-(define (next-level)
-  (set! current-level (+ 1 current-level)))
 
+(define (next-level n)
+      (set! current-level (+ current-level 1)))
 
 (define (draw-lives n)
   (if (> n 0)
@@ -35,7 +39,11 @@
     (text (string-join `("LEVEL:" ,(number->string current-level))) 20 "black")))
     
 ;(text (string #\L #\I #\V #\E #\S #\: #\ (integer->char num-lives)) 5 "black")))
-(define arrowSound (rs-read "arrow.wav"));read in the arrow sound to be played upon shooting
+(define arrowSound (rs-read "arrow.wav"))
+;;(define popSound (rs-read "popped.wav"))
+;read in the arrow sound to be played upon shooting
+
+
 ;(play arrowSound)
 ; initialize the main player and the "hook" used (eventually) to pop bubbles
 (define (p1-sprite)
@@ -73,12 +81,37 @@
          (set! lost? #f)
          (set! win? #f)))
 
+(define (play-next-level)
+  (begin
+    (initialize-level current-level)
+    (set! win? #f)))
+
 (define (click-location x y)
+  (cond
+    [(and (> x 270)
+          (< x 670)
+          (> y 300)
+          (< y 460)
+          (equal? lost? #t)) 
+     (replay-level)]
+    [(and (> x 270)
+          (< x 670)
+          (> y 300)
+          (< y 460)
+          (equal? win? #t))
+     (begin
+        (next-level current-level)
+        (play-next-level))]
+    (else
+     void)))
+
+
+(define (next-click-location x y)
   (if (and (> x 270)
            (< x 670)
            (> y 300)
            (< y 460))
-      (replay-level)
+      (play-next-level)
       void))
 
 (define (mouseclick b x y mouseEvent)
@@ -103,7 +136,6 @@
         "white")
   )
 
-     
 (define (posn-list)
   (foldl cons (posn-bubble-list bubble-list)
          (list (p1 'my-posn) (chain-posn) (my-hook 'my-posn) (HUD-posn) (make-posn 100 100))))
@@ -124,14 +156,26 @@
 
 (define (win-screen)
   (place-images
+   (list(text "YOU WIN!" 90 "red")
+        (overlay (text "next level" 40 "black")
+                 (rectangle 190 70 "solid" "red")
+                 (rectangle 200 80 "solid" "black")
+                 ))
+  (list (make-posn 470 200)
+        (make-posn 470 380))
+   win-img))
+
+(define (end-game)
+  (place-images
    (list(text "YOU WIN!" 90 "red"))
-   (list (make-posn 650 200))
+   (list (make-posn 470 200))
    win-img))
 
 (define (world-obj)
   (cond
     [lost? (lost-screen)]
-    [win? (win-screen)]
+    [(and win? (> 5 current-level)) (win-screen)]
+    [(and win? (equal? current-level 5))(end-game)]
     [else
      (place-images
       (obj-list)
@@ -153,8 +197,7 @@
   (world-obj))
 
 (define (update-bubbles)
-  (map update-bubble bubble-list)
-  )
+  (map update-bubble bubble-list))
 
 (define (update-player-collision)
   (map check-collisions bubble-list))
@@ -211,7 +254,7 @@
                              (update-hook)
                              (update-bubbles)
                              (check-win)
-                             (update-player-collision)
+                           ;;  (update-player-collision) ;; comment to enable god mode
                              (update-hook-collision)
                              (delete-popped-bubbles)
                              )))

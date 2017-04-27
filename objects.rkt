@@ -16,6 +16,7 @@
   (set! bubble-list (filter (lambda (x) (not (x 'popped?))) bubble-list)))
 
 (define arrowSound (rs-read "arrow.wav"));read in the arrow sound to be played upon shooting
+;;(define popSound (rs-read "popped.wav"))
 
 (define (bubble x y size color x-dir y-dir)
 
@@ -43,6 +44,7 @@
  
   (define (collision-bubble)
     (begin
+      ;;(play popSound)
       (set! popped? #t)
       (if (> size 1)
           (bubble-split)
@@ -207,10 +209,33 @@
         (bubble 200 400 2 "indigo" 1 1)
         (bubble 200 200 3 "blue" 1 1)))
 
-(define bubble-list (level-2))
+(define (level-3)
+  (list (bubble 200 550 1 "orange" 1 1)
+        (bubble 400 550 1 "orange" 1 1)
+        (bubble 600 550 1 "orange" 1 1)
+        (bubble 300 200 2 "red" 1 1)
+        (bubble 500 200 2 "red" 1 1)
+        (bubble 400 400 3 "yellow" 1 1)))
+
+(define (level-4)
+  (list (bubble 300 300 3 "purple" 1 1)
+        (bubble 400 300 3 "purple" 1 1)
+        (bubble 500 300 3 "purple" 1 1)))
+
+(define (level-5)
+  (list (bubble 200 550 4 "black" 1 1)
+        (bubble 600 550 4 "black" 1 1)))
+
+
+
+(define bubble-list (level-1))
 
 (define (initialize-level n)
   (begin (p1 'reset-posn)
          (my-hook 'reset)
          (cond [(= n 1) (set! bubble-list (level-1))]
-               [else (error "hoijoiejrwoeirj")])))
+               [(= n 2) (set! bubble-list (level-2))]
+               [(= n 3) (set! bubble-list (level-3))]
+               [(= n 4) (set! bubble-list (level-4))]
+               [(= n 5) (set! bubble-list (level-5))]
+               [else (error "max level reached")])))
