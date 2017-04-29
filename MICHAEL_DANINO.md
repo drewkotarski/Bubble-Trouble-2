@@ -31,6 +31,7 @@ Below are the parts of the code that embody the ideas from the Organization of P
 
 ## 1. "Object orientation" with message passing to manipulate objects
 
+**Note:** Some parts of the object orientation were written by me, some by Molly, and some both of us together.
 There were 3 main objects in our code, the Bubble object, the player object, and the hook object. The code for each is below
 
 ```racket
@@ -217,6 +218,9 @@ this goes into the bubble object's dispatch function and comes to the following 
 
 
 ### Map
+
+**Note** The original functions that are being mapped over were written some by me and some by Molly, I changed the code from using hard-coded objects lists of objects that can be mapped over (along with the actual map calls).
+
 Because each level has a different number of bubbles that need to be modified, we created lists of bubbles for each level. To manipulate these lists of bubbles, we mapped over them to update the x/y position, as seen below.
 ```racket 
 (define (update-bubbles)
@@ -275,6 +279,8 @@ Both functions map over each bubble object and  check if any of the bubbles are 
 
 ### Fold
 
+**Note** The folds were written by me
+
 Fold was used to build the list of images, and the list of positions that place-images uses to draw to the screen.
 
 ```racket
@@ -312,6 +318,9 @@ The obj-list and posn-list are both created with folds over the posn-bubble-list
 In ```draw-bubble-list``` and ```posn-bubble-list```, the list of bubble objects is folded to create a new list of either the image of the respective bubble, or the posn of the respective bubble.
 
 ### Filter
+
+**Note** The filter was written by me
+
 Filter was used to remove "popped" bubbles from the list, based on a flag that was set in the col-hook function as seen below.
 
 ```racket
