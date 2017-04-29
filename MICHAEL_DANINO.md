@@ -271,7 +271,7 @@ Similarly, to check for player-bubble collisions, and hook-bubble collisions, we
       void)
 )
 ```
-both functions map over each bubble object and  check if any of the bubbles are overlapping with either the hook or the player, calling the correct collision function using aforementioned message passing 'col-sprite for player-bubble collision, and 'col-hook for hook-bubble collision.
+Both functions map over each bubble object and  check if any of the bubbles are overlapping with either the hook or the player, calling the correct collision function using aforementioned message passing 'col-sprite for player-bubble collision, and 'col-hook for hook-bubble collision.
 
 ### Fold
 
@@ -290,7 +290,7 @@ Fold was used to build the list of images, and the list of positions that place-
     )) 
 ```
 
-the obj-list and posn-list are both created with folds over the posn-bubble-list + the other positions in order to create a single list of positions, and the draw-bubble-list + the other images to be drawn to the screen. The posn-bubble-list, and draw-bubble-list are folds over the bubble-list to create a list of positions and bubble images respectively.
+The obj-list and posn-list are both created with folds over the posn-bubble-list + the other positions in order to create a single list of positions, and the draw-bubble-list + the other images to be drawn to the screen. The posn-bubble-list, and draw-bubble-list are folds over the bubble-list to create a list of positions and bubble images respectively.
 
 ```racket
 (define (obj-list)
@@ -309,7 +309,7 @@ the obj-list and posn-list are both created with folds over the posn-bubble-list
 
 ```
 
-in ```draw-bubble-list``` and ```posn-bubble-list```, the list of bubble objects is folded to create a new list of either the image of the respective bubble, or the posn of the respective bubble.
+In ```draw-bubble-list``` and ```posn-bubble-list```, the list of bubble objects is folded to create a new list of either the image of the respective bubble, or the posn of the respective bubble.
 
 ### Filter
 Filter was used to remove "popped" bubbles from the list, based on a flag that was set in the col-hook function as seen below.
