@@ -39,7 +39,8 @@ make up the body of our project.
 Three excerpts are shown and they are individually numbered. 
 
 ## 1. Message Passing
-**Note:** Both Mike and I wrote portions of the below code. 
+**Note:** Both Mike and I wrote portions of the below code.
+
 Through using message passing, objects that were previously defined could be mainuplated. These manipulations included changing
 x position, y position, event handling, and collision detection.
 
