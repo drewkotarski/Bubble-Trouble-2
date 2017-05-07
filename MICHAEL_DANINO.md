@@ -3,7 +3,7 @@
 ## Michael Danino
 ### April 29, 2017
 
-#Overview
+# Overview
 This was a recreation of a classic flash game called Bubble Trouble. The goal of the game is to pop all the bubbles on the screen without getting hit, with larger bubbles splitting into 2 smaller ones each time they get hit until they are hit at the smallest size and are popped for good.
 The game can be played with the left and right arrow keys and a hook with a rope can be shot with the space bar, limiting to 1 "shot" on the screen at any given time.
 
@@ -25,7 +25,7 @@ The code uses 4 libraries
 * The ```2htdp/universe``` library is used for object manipulation within the "game world" as well as handling key inputs (left/right arrow keys and spacebar)
 * The ```rsound``` library is used to play an arrow shot sound as the spacebar is pressed.
 
-#Key Code Excerpts
+# Key Code Excerpts
 
 Below are the parts of the code that embody the ideas from the Organization of Programming Language's course.
 
